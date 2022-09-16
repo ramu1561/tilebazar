@@ -1,0 +1,42 @@
+PODS:
+  - Alamofire (4.9.1)
+  - AssetsPickerViewController (2.7.7):
+    - Device
+    - SnapKit
+  - Device (3.2.1)
+  - IQKeyboardManagerSwift (6.5.5)
+  - SDWebImage (5.7.3):
+    - SDWebImage/Core (= 5.7.3)
+  - SDWebImage/Core (5.7.3)
+  - SnapKit (5.0.1)
+  - Toast-Swift (4.0.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.0)
+  - AssetsPickerViewController
+  - IQKeyboardManagerSwift
+  - SDWebImage
+  - Toast-Swift (~> 4.0.0)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AssetsPickerViewController
+    - Device
+    - IQKeyboardManagerSwift
+    - SDWebImage
+    - SnapKit
+    - Toast-Swift
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  AssetsPickerViewController: 77dd85c52c60b9e2c155b11ea47aa899f1786fc5
+  Device: 0738862dd8a30856b4bd9e21cb9b728873d21392
+  IQKeyboardManagerSwift: 0fb93310284665245591f50f7a5e38de615960b7
+  SDWebImage: 97351f6582ceca541ea294ba66a1fcb342a331c2
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  Toast-Swift: e42a638589a2f95036b4bb7626cfbdde7daf0393
+
+PODFILE CHECKSUM: 9b16d92bfc88242ffa76ace834e260d9045a152f
+
+COCOAPODS: 1.11.3

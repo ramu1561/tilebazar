@@ -1,0 +1,6 @@
+framework module Pods_Tile_Bazar {
+  umbrella header "Pods-Tile Bazar-umbrella.h"
+
+  export *
+  module * { export * }
+}
