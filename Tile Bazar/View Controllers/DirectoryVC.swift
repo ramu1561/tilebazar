@@ -126,11 +126,15 @@ class DirectoryVC: ParentVC {
     var refreshcontrol : UIRefreshControl!
     var sort_by = "0"
     var arrSellerIDs:[String] = []
+    var arrayWatchlistSellerIDs:[String] = []
     @IBOutlet weak var viewNoData: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addRefreshcontrol()
+        offset = "0"
+        arrSellerIDs.removeAll()
+        wsCallGetDirectory(limit: "10")
         // Do any additional setup after loading the view.
     }
     func addRefreshcontrol(){
@@ -140,9 +144,8 @@ class DirectoryVC: ParentVC {
         tblView.addSubview(refreshcontrol)
     }
     override func viewWillAppear(_ animated: Bool) {
-        offset = "0"
-        arrSellerIDs.removeAll()
-        wsCallGetDirectory(limit: "10")
+        arrayWatchlistSellerIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistSellerIDs") ?? [String]()
+        self.tblView.reloadData()
     }
     @objc private func refreshData(_ refreshcontrol: UIRefreshControl) {
         self.sort_by = "0"
@@ -191,12 +194,16 @@ class DirectoryVC: ParentVC {
         self.present(reportPostVC, animated: true, completion: nil)
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
-        if (self.arrDirectory[sender.tag].is_favourite ?? "") == "1"{
+        if (self.arrDirectory[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistSellerIDs.contains(self.arrDirectory[sender.tag].id ?? ""){
+            arrayWatchlistSellerIDs.removeElement(element:self.arrDirectory[sender.tag].id ?? "")
             wsCallRemoveDirectoryFromWatchlist(user_id: self.arrDirectory[sender.tag].id ?? "")
         }
         else{
+            arrayWatchlistSellerIDs.append(self.arrDirectory[sender.tag].id ?? "")
             self.wsCallAddDirectoryToWatchlist(user_id: self.arrDirectory[sender.tag].id ?? "")
         }
+        UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
+        self.tblView.reloadData()
     }
     @IBAction func toggleShare(_ sender: UIButton) {
         
@@ -226,7 +233,7 @@ extension DirectoryVC:UITableViewDelegate,UITableViewDataSource,UIScrollViewDele
         cell.lblDate.text = self.arrDirectory[indexPath.row].created_at ?? ""
         cell.lblProductsCount.text = "\(self.arrDirectory[indexPath.row].total_products ?? "") Products"
         
-        if (self.arrDirectory[indexPath.row].is_favourite ?? "") == "1"{
+        if (self.arrDirectory[indexPath.row].is_favourite ?? "") == "1" || arrayWatchlistSellerIDs.contains(self.arrDirectory[indexPath.row].id ?? ""){
             cell.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
             cell.lblWatchList.textColor = UIColor(hexString: "#c0252b")
         }
@@ -324,18 +331,12 @@ extension DirectoryVC{
         }
     }
     func wsCallAddDirectoryToWatchlist(user_id:String){
-        self.showSpinner()
         let param = ["user_id":user_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.addDirectoryToWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            self.offset = "0"
-            self.arrSellerIDs.removeAll()
-            self.wsCallGetDirectory(limit: "10")
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -353,18 +354,12 @@ extension DirectoryVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wsCallRemoveDirectoryFromWatchlist(user_id:String){
-        self.showSpinner()
         let param = ["user_id":user_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeDirectoryFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            self.offset = "0"
-            self.arrSellerIDs.removeAll()
-            self.wsCallGetDirectory(limit: "10")
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
@@ -386,7 +381,6 @@ extension DirectoryVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
 }

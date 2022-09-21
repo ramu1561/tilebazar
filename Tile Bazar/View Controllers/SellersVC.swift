@@ -14,6 +14,7 @@ class SellersVC: ParentVC {
     var offset = "0"
     var arrDirectoryWatchlist:[GetDirectoryListDataModel] = []
     var refreshcontrol : UIRefreshControl!
+    var arrayWatchlistSellerIDs:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,7 @@ class SellersVC: ParentVC {
         tblView.addSubview(refreshcontrol)
     }
     override func viewWillAppear(_ animated: Bool) {
+        arrayWatchlistSellerIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistSellerIDs") ?? [String]()
         offset = "0"
         wsCallGetDirectoryWatchlist(limit: "10")
     }
@@ -41,7 +43,9 @@ class SellersVC: ParentVC {
         self.present(reportPostVC, animated: true, completion: nil)
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
+        arrayWatchlistSellerIDs.removeElement(element:self.arrDirectoryWatchlist[sender.tag].id ?? "")
         wsCallRemoveDirectoryFromWatchlist(user_id: self.arrDirectoryWatchlist[sender.tag].id ?? "")
+        UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
     }
     @IBAction func toggleShare(_ sender: UIButton) {
         
@@ -156,17 +160,14 @@ extension SellersVC{
         }
     }
     func wsCallRemoveDirectoryFromWatchlist(user_id:String){
-        self.showSpinner()
         let param = ["user_id":user_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeDirectoryFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
             self.offset = "0"
             self.wsCallGetDirectoryWatchlist(limit: "10")
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -184,7 +185,6 @@ extension SellersVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
 }

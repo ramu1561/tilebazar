@@ -185,19 +185,15 @@ extension CompareProductsVC:UITableViewDelegate,UITableViewDataSource{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == tblViewOptions{
             self.scrollView.contentOffset = scrollView.contentOffset
-            print("tblViewOptions is scrolling")
         }
         else if scrollView == collectionViewHeader{
             collectionViewProducts.contentOffset = scrollView.contentOffset
-            print("collectionViewHeader is scrolling")
         }
         else if scrollView == collectionViewProducts{
             collectionViewHeader.contentOffset = scrollView.contentOffset
-            print("collectionViewProducts is scrolling")
         }
         else{
             tblViewOptions.contentOffset = scrollView.contentOffset
-            print("scroll view is scrolling")
         }
     }
 }

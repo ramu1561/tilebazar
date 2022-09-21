@@ -44,6 +44,7 @@ class ProductDetailsVC: ParentVC {
     var is_paid = HomeVC.sharedInstance?.is_paid ?? ""
     static var sharedInstance:ProductDetailsVC?
     var arrayCompareProductIDs:[String] = []
+    var arrayWatchlistProductIDs:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,7 @@ class ProductDetailsVC: ParentVC {
     override func viewWillAppear(_ animated: Bool) {
         arrayCompareProductIDs = UserDefaults.standard.stringArray(forKey: "arrayCompareProductIDs") ?? [String]()
         checkCompareProducts()
+        arrayWatchlistProductIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistProductIDs") ?? [String]()
         self.tabBarController?.tabBar.isHidden = true
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,12 +78,15 @@ class ProductDetailsVC: ParentVC {
         self.present(reportPostVC, animated: true, completion: nil)
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
-        if self.is_favourite == "1"{
+        if self.is_favourite == "1" || arrayWatchlistProductIDs.contains(self.product_id){
+            arrayWatchlistProductIDs.removeElement(element:self.product_id)
             wsCallRemoveProductFromWatchlist(product_id: self.product_id)
         }
         else{
+            arrayWatchlistProductIDs.append(self.product_id)
             self.wsCallAddProductToWatchlist(product_id: self.product_id)
         }
+        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         if arrayCompareProductIDs.contains(product_id){
@@ -271,7 +276,7 @@ extension ProductDetailsVC{
                     self.is_favourite = String(item as! Int)
                 }
             }
-            if self.is_favourite == "1"{
+            if self.is_favourite == "1" || self.arrayWatchlistProductIDs.contains(self.product_id){
                 self.btnWatchlist.isSelected = true
             }
             else{
@@ -380,9 +385,7 @@ extension ProductDetailsVC{
                     self.phone_number = String(item as! Int)
                 }
             }
-            
             self.tblView.reloadData()
-            
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
@@ -408,17 +411,14 @@ extension ProductDetailsVC{
         }
     }
     func wsCallAddProductToWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.addProductToWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
             self.btnWatchlist.isSelected = true
             self.is_favourite = "1"
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -436,21 +436,17 @@ extension ProductDetailsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wsCallRemoveProductFromWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeProductFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
             self.btnWatchlist.isSelected = false
             self.is_favourite = "0"
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -468,7 +464,6 @@ extension ProductDetailsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
 }

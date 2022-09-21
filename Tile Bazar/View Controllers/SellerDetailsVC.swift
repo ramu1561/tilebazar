@@ -30,6 +30,11 @@ class SellerDetailsVC: ParentVC {
     var is_paid = HomeVC.sharedInstance?.is_paid ?? ""
     static var sharedInstance:SellerDetailsVC?
     var isSubscribePressed = false
+    var arrayWatchlistSellerIDs:[String] = []
+    var arrayWatchlistProductIDs:[String] = []
+    var arrayCompareProductIDs:[String] = []
+    @IBOutlet weak var lblCompareCount: UILabel!
+    @IBOutlet weak var viewCompareCount: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +64,20 @@ class SellerDetailsVC: ParentVC {
             isSubscribePressed = false
             self.showSubsciptionScreen()
         }
+        arrayCompareProductIDs = UserDefaults.standard.stringArray(forKey: "arrayCompareProductIDs") ?? [String]()
+        checkCompareProducts()
+        arrayWatchlistProductIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistProductIDs") ?? [String]()
+        arrayWatchlistSellerIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistSellerIDs") ?? [String]()
         self.tabBarController?.tabBar.isHidden = true
+    }
+    func checkCompareProducts(){
+        self.lblCompareCount.text = "\(self.arrayCompareProductIDs.count)"
+        if self.arrayCompareProductIDs.count > 0{
+            self.viewCompareCount.isHidden = false
+        }
+        else{
+            self.viewCompareCount.isHidden = true
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
@@ -79,15 +97,27 @@ class SellerDetailsVC: ParentVC {
         self.present(reportPostVC, animated: true, completion: nil)
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
-        if (self.arrSellerProducts[sender.tag].is_favourite ?? "") == "1"{
+        if (self.arrSellerProducts[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSellerProducts[sender.tag].id ?? ""){
+            arrayWatchlistProductIDs.removeElement(element:self.arrSellerProducts[sender.tag].id ?? "")
             wsCallRemoveProductFromWatchlist(product_id: self.arrSellerProducts[sender.tag].id ?? "")
         }
         else{
+            arrayWatchlistProductIDs.append(self.arrSellerProducts[sender.tag].id ?? "")
             self.wsCallAddProductToWatchlist(product_id: self.arrSellerProducts[sender.tag].id ?? "")
         }
+        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+        self.tblView.reloadData()
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
-        
+        if arrayCompareProductIDs.contains(self.arrSellerProducts[sender.tag].id ?? ""){
+            arrayCompareProductIDs.removeElement(element:self.arrSellerProducts[sender.tag].id ?? "")
+        }
+        else{
+            arrayCompareProductIDs.append(self.arrSellerProducts[sender.tag].id ?? "")
+        }
+        UserDefaults.standard.set(self.arrayCompareProductIDs, forKey: "arrayCompareProductIDs")
+        checkCompareProducts()
+        self.tblView.reloadData()
     }
     @IBAction func toggleShare(_ sender: UIButton) {
     }
@@ -135,12 +165,22 @@ class SellerDetailsVC: ParentVC {
     @IBAction func toggleButtons(_ sender: UIButton) {
         if sender.tag == 0{
             //watchlist
-            if self.is_favourite == "1"{
+            if self.is_favourite == "1" || arrayWatchlistSellerIDs.contains(self.user_id){
+                arrayWatchlistSellerIDs.removeElement(element:self.user_id)
                 wsCallRemoveDirectoryFromWatchlist(user_id: self.user_id)
+                self.is_favourite = "0"
+                self.imgWatchlistIcon.image = UIImage(named: "icon_add_watchlist")
+                self.lblWatchList.textColor = UIColor.darkGray
             }
             else{
+                self.is_favourite = "1"
+                self.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
+                self.lblWatchList.textColor = UIColor(hexString: "#c0252b")
+                arrayWatchlistSellerIDs.append(self.user_id)
                 self.wsCallAddDirectoryToWatchlist(user_id: self.user_id)
             }
+            UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
+            
         }
         else if sender.tag == 1{
             //share
@@ -212,13 +252,22 @@ extension SellerDetailsVC:UITableViewDelegate,UITableViewDataSource,UIScrollView
         
         let priceTypeName = (self.arrSellerProducts[indexPath.row].price_type_name ?? "").replacingOccurrences(of: "per ", with: "").firstCapitalized
         cell.lblPriceAndType.text = "\(self.arrSellerProducts[indexPath.row].price ?? "")/\(priceTypeName)"
-        if (self.arrSellerProducts[indexPath.row].is_favourite ?? "") == "1"{
+        if (self.arrSellerProducts[indexPath.row].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSellerProducts[indexPath.row].id ?? ""){
             cell.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
             cell.lblWatchList.textColor = UIColor(hexString: "#c0252b")
         }
         else{
             cell.imgWatchlistIcon.image = UIImage(named: "icon_add_watchlist")
             cell.lblWatchList.textColor = UIColor.darkGray
+        }
+        if arrayCompareProductIDs.contains(self.arrSellerProducts[indexPath.row].id ?? "")
+        {
+            cell.imgCompare.image = UIImage(named: "compare_selected")
+            cell.lblCompare.textColor = UIColor(hexString: "#c0252b")
+        }
+        else{
+            cell.imgCompare.image = UIImage(named: "compare_select")
+            cell.lblCompare.textColor = UIColor.darkGray
         }
         return cell
     }
@@ -290,7 +339,7 @@ extension SellerDetailsVC{
                     self.is_favourite = String(item as! Int)
                 }
             }
-            if self.is_favourite == "1"{
+            if self.is_favourite == "1" || self.arrayWatchlistSellerIDs.contains(self.user_id){
                 self.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
                 self.lblWatchList.textColor = UIColor(hexString: "#c0252b")
             }
@@ -392,17 +441,12 @@ extension SellerDetailsVC{
         }
     }
     func wsCallAddProductToWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.addProductToWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            self.offset = "0"
-            self.wsCallGetUserProducts(limit: "10", user_id: self.user_id)
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -420,17 +464,12 @@ extension SellerDetailsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wsCallRemoveProductFromWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeProductFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            self.offset = "0"
-            self.wsCallGetUserProducts(limit: "10", user_id: self.user_id)
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
@@ -452,20 +491,15 @@ extension SellerDetailsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wsCallAddDirectoryToWatchlist(user_id:String){
-        self.showSpinner()
         let param = ["user_id":user_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.addDirectoryToWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            self.wsCallSellerDetails(user_id: self.user_id)
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -483,20 +517,15 @@ extension SellerDetailsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wsCallRemoveDirectoryFromWatchlist(user_id:String){
-        self.showSpinner()
         let param = ["user_id":user_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeDirectoryFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            self.wsCallSellerDetails(user_id: self.user_id)
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -514,7 +543,6 @@ extension SellerDetailsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
 }

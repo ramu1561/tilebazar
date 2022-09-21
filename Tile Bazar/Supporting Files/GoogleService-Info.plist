@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>520156587732-qubma87a1v57ejintm0i745sq8uaocsq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.520156587732-qubma87a1v57ejintm0i745sq8uaocsq</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>520156587732-5vanrv7r8lvb7lo474ce44103l5mbbi5.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCzMQinwqgXfgxxcBC1OCrrPyd3-49ZeaU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>520156587732</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.app.Tile-Bazar</string>
+	<key>PROJECT_ID</key>
+	<string>tile-bazar</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tile-bazar.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:520156587732:ios:e687c784f660d8635e3d41</string>
+</dict>
+</plist>

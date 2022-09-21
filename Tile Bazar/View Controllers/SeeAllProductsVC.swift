@@ -22,6 +22,7 @@ class SeeAllProductsVC: ParentVC {
     var sq_ft_price = ""
     
     var arrayCompareProductIDs:[String] = []
+    var arrayWatchlistProductIDs:[String] = []
     @IBOutlet weak var lblCompareCount: UILabel!
     @IBOutlet weak var viewCompareCount: UIView!
     
@@ -78,6 +79,7 @@ class SeeAllProductsVC: ParentVC {
     override func viewWillAppear(_ animated: Bool) {
         arrayCompareProductIDs = UserDefaults.standard.stringArray(forKey: "arrayCompareProductIDs") ?? [String]()
         checkCompareProducts()
+        arrayWatchlistProductIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistProductIDs") ?? [String]()
         self.tabBarController?.tabBar.isHidden = true
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -100,12 +102,16 @@ class SeeAllProductsVC: ParentVC {
         self.present(reportPostVC, animated: true, completion: nil)
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
-        if (self.arrSeeAllProducts[sender.tag].is_favourite ?? "") == "1"{
+        if (self.arrSeeAllProducts[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSeeAllProducts[sender.tag].id ?? ""){
+            arrayWatchlistProductIDs.removeElement(element:self.arrSeeAllProducts[sender.tag].id ?? "")
             wsCallRemoveProductFromWatchlist(product_id: self.arrSeeAllProducts[sender.tag].id ?? "")
         }
         else{
+            arrayWatchlistProductIDs.append(self.arrSeeAllProducts[sender.tag].id ?? "")
             self.wsCallAddProductToWatchlist(product_id: self.arrSeeAllProducts[sender.tag].id ?? "")
         }
+        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+        self.tblView.reloadData()
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         if arrayCompareProductIDs.contains(self.arrSeeAllProducts[sender.tag].id ?? ""){
@@ -176,7 +182,7 @@ extension SeeAllProductsVC:UITableViewDelegate,UITableViewDataSource,UIScrollVie
         
         let priceTypeName = (self.arrSeeAllProducts[indexPath.row].price_type_name ?? "").replacingOccurrences(of: "per ", with: "").firstCapitalized
         cell.lblPriceAndType.text = "\(self.arrSeeAllProducts[indexPath.row].price ?? "")/\(priceTypeName)"
-        if (self.arrSeeAllProducts[indexPath.row].is_favourite ?? "") == "1"{
+        if (self.arrSeeAllProducts[indexPath.row].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSeeAllProducts[indexPath.row].id ?? ""){
             cell.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
             cell.lblWatchList.textColor = UIColor(hexString: "#c0252b")
         }
@@ -276,27 +282,12 @@ extension SeeAllProductsVC{
         }
     }
     func wsCallAddProductToWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.addProductToWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            if self.isComingFrom == "myProducts"{
-                self.offset = "0"
-                self.wsCallGetUserProducts(limit: "10", user_id: userInfo?.id ?? "")
-            }
-            else if self.isComingFrom == "categories"{
-                self.offset = "0"
-                self.wsCallGetCategoryProducts(limit: "10", category_id: self.category_id, sq_ft_price: self.sq_ft_price)
-            }
-            else{
-                self.setupAPICalls()
-            }
-            
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -314,30 +305,15 @@ extension SeeAllProductsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wsCallRemoveProductFromWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeProductFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            if self.isComingFrom == "myProducts"{
-                self.offset = "0"
-                self.wsCallGetUserProducts(limit: "10", user_id: userInfo?.id ?? "")
-            }
-            else if self.isComingFrom == "categories"{
-                self.offset = "0"
-                self.wsCallGetCategoryProducts(limit: "10", category_id: self.category_id, sq_ft_price: self.sq_ft_price)
-            }
-            else{
-                self.setupAPICalls()
-            }
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -355,7 +331,6 @@ extension SeeAllProductsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     private func wsCallGetUserProducts(limit:String,user_id:String){

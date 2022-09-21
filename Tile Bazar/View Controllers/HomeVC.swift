@@ -345,6 +345,7 @@ class HomeVC: ParentVC {
     var payment_plan_name = ""
     var plan_end_date = ""
     var arrayCompareProductIDs:[String] = []
+    var arrayWatchlistProductIDs:[String] = []
     @IBOutlet weak var lblCompareCount: UILabel!
     @IBOutlet weak var viewCompareCount: UIView!
     @IBOutlet weak var viewNoData: UIView!
@@ -358,6 +359,7 @@ class HomeVC: ParentVC {
         HomeVC.sharedInstance = self
         tblViewProducts.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: Double.leastNormalMagnitude))
         addRefreshcontrol()
+        wsCallDashboard()
         // Do any additional setup after loading the view.
     }
     func addRefreshcontrol(){
@@ -388,7 +390,8 @@ class HomeVC: ParentVC {
     override func viewWillAppear(_ animated: Bool) {
         arrayCompareProductIDs = UserDefaults.standard.stringArray(forKey: "arrayCompareProductIDs") ?? [String]()
         checkCompareProducts()
-        wsCallDashboard()
+        arrayWatchlistProductIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistProductIDs") ?? [String]()
+        self.tblViewProducts.reloadData()
     }
     //MARK: Button Actions
     @IBAction func toggleHomeButtons(_ sender: UIButton) {
@@ -434,29 +437,37 @@ class HomeVC: ParentVC {
         print("section:\(indexPath?.section ?? 0) row:\(indexPath?.row ?? 0)")
         
         if (indexPath?.section ?? 0) == 0{
-            if (self.arrFeaturedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1"{
+            if (self.arrFeaturedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? ""){
+                arrayWatchlistProductIDs.removeElement(element:self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
                 wsCallRemoveProductFromWatchlist(product_id: self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
             }
             else{
+                arrayWatchlistProductIDs.append(self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
                 self.wsCallAddProductToWatchlist(product_id: self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
             }
         }
         else if (indexPath?.section ?? 0) == 1{
-            if (self.arrRecentlyAddedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1"{
+            if (self.arrRecentlyAddedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? ""){
+                arrayWatchlistProductIDs.removeElement(element:self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
                 wsCallRemoveProductFromWatchlist(product_id: self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
             }
             else{
+                arrayWatchlistProductIDs.append(self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
                 self.wsCallAddProductToWatchlist(product_id: self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
             }
         }
         else{
-            if (self.arrFirstChoiceProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1"{
+            if (self.arrFirstChoiceProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? ""){
+                arrayWatchlistProductIDs.removeElement(element:self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
                 wsCallRemoveProductFromWatchlist(product_id: self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
             }
             else{
+                arrayWatchlistProductIDs.append(self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
                 self.wsCallAddProductToWatchlist(product_id: self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
             }
         }
+        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+        self.tblViewProducts.reloadData()
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         let buttonPosition = sender.convert(CGPoint.zero, to: self.tblViewProducts)
@@ -714,7 +725,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 let priceTypeName = (self.arrFeaturedProducts[indexPath.row].price_type_name ?? "").replacingOccurrences(of: "per ", with: "").firstCapitalized
                 cell.lblPriceAndType.text = "\(self.arrFeaturedProducts[indexPath.row].price ?? "")/\(priceTypeName)"
                 
-                if (self.arrFeaturedProducts[indexPath.row].is_favourite ?? "") == "1"{
+                if (self.arrFeaturedProducts[indexPath.row].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFeaturedProducts[indexPath.row].id ?? ""){
                     cell.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
                     cell.lblWatchList.textColor = UIColor(hexString: "#c0252b")
                 }
@@ -783,7 +794,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 let priceTypeName = (self.arrRecentlyAddedProducts[indexPath.row].price_type_name ?? "").replacingOccurrences(of: "per ", with: "").firstCapitalized
                 cell.lblPriceAndType.text = "\(self.arrRecentlyAddedProducts[indexPath.row].price ?? "")/\(priceTypeName)"
                 
-                if (self.arrRecentlyAddedProducts[indexPath.row].is_favourite ?? "") == "1"{
+                if (self.arrRecentlyAddedProducts[indexPath.row].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrRecentlyAddedProducts[indexPath.row].id ?? ""){
                     cell.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
                     cell.lblWatchList.textColor = UIColor(hexString: "#c0252b")
                 }
@@ -852,7 +863,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 
                 cell.lblPriceAndType.text = "\(self.arrFirstChoiceProducts[indexPath.row].price ?? "")/\(priceTypeName)"
                 
-                if (self.arrFirstChoiceProducts[indexPath.row].is_favourite ?? "") == "1"{
+                if (self.arrFirstChoiceProducts[indexPath.row].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFirstChoiceProducts[indexPath.row].id ?? ""){
                     cell.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
                     cell.lblWatchList.textColor = UIColor(hexString: "#c0252b")
                 }
@@ -1089,16 +1100,13 @@ extension HomeVC{
         }
     }
     func wsCallAddProductToWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.addProductToWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
             self.hideSpinner()
             print(response)
-            self.wsCallDashboard()
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -1116,20 +1124,15 @@ extension HomeVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wsCallRemoveProductFromWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeProductFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
-            self.wsCallDashboard()
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -1147,7 +1150,6 @@ extension HomeVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
     func wscallLogoutUser(){

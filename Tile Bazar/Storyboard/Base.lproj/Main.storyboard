@@ -8944,6 +8944,71 @@
                                             <outlet property="delegate" destination="LV4-mK-hPI" id="P1a-PE-7RQ"/>
                                         </connections>
                                     </tableView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NGs-MR-STx">
+                                        <rect key="frame" x="349" y="566" width="60" height="60"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UCJ-qz-9n5" customClass="RoundView" customModule="Tile_Bazar" customModuleProvider="target">
+                                                <rect key="frame" x="10" y="10" width="40" height="40"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="scale-unbalanced" translatesAutoresizingMaskIntoConstraints="NO" id="kPW-ZU-KfF">
+                                                        <rect key="frame" x="7.6666666666666856" y="7.6666666666666288" width="25" height="25"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="25" id="2oQ-Ia-xlz"/>
+                                                            <constraint firstAttribute="height" constant="25" id="HV1-ec-wyU"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.90196078430000004" green="0.035294117649999998" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="CUn-bi-cv1"/>
+                                                    <constraint firstItem="kPW-ZU-KfF" firstAttribute="centerX" secondItem="UCJ-qz-9n5" secondAttribute="centerX" id="hrS-1u-f4d"/>
+                                                    <constraint firstItem="kPW-ZU-KfF" firstAttribute="centerY" secondItem="UCJ-qz-9n5" secondAttribute="centerY" id="mWp-nh-IL5"/>
+                                                    <constraint firstAttribute="width" constant="40" id="qPm-Jk-DBQ"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="wZO-YH-wS6" customClass="RoundLabel" customModule="Tile_Bazar" customModuleProvider="target">
+                                                <rect key="frame" x="35" y="5" width="20" height="20"/>
+                                                <color key="backgroundColor" red="0.90196078430000004" green="0.035294117649999998" blue="0.074509803920000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="HkX-MR-KsH"/>
+                                                    <constraint firstAttribute="width" constant="20" id="moe-gH-8P1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="10"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                        <real key="value" value="1"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Sr-3V-knW">
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <connections>
+                                                    <action selector="toggleCompareScreen:" destination="LV4-mK-hPI" eventType="touchUpInside" id="qnZ-bR-qkP"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="88l-v1-8lD"/>
+                                            <constraint firstItem="UCJ-qz-9n5" firstAttribute="leading" secondItem="NGs-MR-STx" secondAttribute="leading" constant="10" id="Bfr-1J-uOk"/>
+                                            <constraint firstAttribute="bottom" secondItem="0Sr-3V-knW" secondAttribute="bottom" id="CE9-xu-VQY"/>
+                                            <constraint firstItem="0Sr-3V-knW" firstAttribute="top" secondItem="NGs-MR-STx" secondAttribute="top" id="Eoe-XQ-j9F"/>
+                                            <constraint firstAttribute="trailing" secondItem="UCJ-qz-9n5" secondAttribute="trailing" constant="10" id="IdZ-uN-hZs"/>
+                                            <constraint firstAttribute="bottom" secondItem="UCJ-qz-9n5" secondAttribute="bottom" constant="10" id="LIz-Sg-BFw"/>
+                                            <constraint firstAttribute="trailing" secondItem="0Sr-3V-knW" secondAttribute="trailing" id="PxE-xB-TVb"/>
+                                            <constraint firstAttribute="trailing" secondItem="wZO-YH-wS6" secondAttribute="trailing" constant="5" id="V2t-B8-eMw"/>
+                                            <constraint firstItem="0Sr-3V-knW" firstAttribute="leading" secondItem="NGs-MR-STx" secondAttribute="leading" id="Vfx-kF-RCg"/>
+                                            <constraint firstAttribute="width" constant="60" id="Vm8-DZ-yhe"/>
+                                            <constraint firstItem="wZO-YH-wS6" firstAttribute="top" secondItem="NGs-MR-STx" secondAttribute="top" constant="5" id="f9V-cf-TqM"/>
+                                            <constraint firstItem="UCJ-qz-9n5" firstAttribute="top" secondItem="NGs-MR-STx" secondAttribute="top" constant="10" id="kJP-EV-dOo"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -8959,8 +9024,10 @@
                                     <constraint firstAttribute="trailing" secondItem="yF5-bW-JuC" secondAttribute="trailing" id="NQT-W7-Oba"/>
                                     <constraint firstItem="qCg-sh-hMy" firstAttribute="leading" secondItem="dcA-lh-iyd" secondAttribute="leading" constant="20" symbolic="YES" id="NdS-fT-Gug"/>
                                     <constraint firstItem="APw-AT-wns" firstAttribute="top" secondItem="yF5-bW-JuC" secondAttribute="bottom" constant="5" id="OIH-nM-5An"/>
+                                    <constraint firstAttribute="bottom" secondItem="NGs-MR-STx" secondAttribute="bottom" constant="10" id="Z5K-d9-PAc"/>
                                     <constraint firstItem="yF5-bW-JuC" firstAttribute="leading" secondItem="dcA-lh-iyd" secondAttribute="leading" id="acI-I1-TsX"/>
                                     <constraint firstItem="NBY-NM-tea" firstAttribute="leading" secondItem="dcA-lh-iyd" secondAttribute="leading" constant="20" id="dtx-eZ-W18"/>
+                                    <constraint firstAttribute="trailing" secondItem="NGs-MR-STx" secondAttribute="trailing" constant="5" id="hYv-Ac-v1X"/>
                                     <constraint firstItem="M2p-Xm-3Yg" firstAttribute="leading" secondItem="dcA-lh-iyd" secondAttribute="leading" constant="20" id="icC-cx-7dk"/>
                                     <constraint firstItem="qCg-sh-hMy" firstAttribute="top" secondItem="NBY-NM-tea" secondAttribute="bottom" constant="8" symbolic="YES" id="jvq-gH-YqG"/>
                                     <constraint firstAttribute="bottom" secondItem="TxB-92-gkd" secondAttribute="bottom" id="lcd-D7-LZf"/>
@@ -9062,10 +9129,12 @@
                         <outlet property="imgWatchlistIcon" destination="BeR-Lh-9mb" id="8gK-ND-rNs"/>
                         <outlet property="lblCityState" destination="kGU-rb-chN" id="PhX-vZ-DzU"/>
                         <outlet property="lblCompanyName" destination="M2p-Xm-3Yg" id="HSu-ni-8EN"/>
+                        <outlet property="lblCompareCount" destination="wZO-YH-wS6" id="Xdn-bY-s8L"/>
                         <outlet property="lblFollowersCount" destination="jZ9-fB-Vxy" id="WgA-lv-Gy4"/>
                         <outlet property="lblProductsCount" destination="3lI-p8-76C" id="hfx-Xp-DRr"/>
                         <outlet property="lblWatchList" destination="2pO-Of-uws" id="cWC-Ho-Lrn"/>
                         <outlet property="tblView" destination="APw-AT-wns" id="rtU-Hf-XMC"/>
+                        <outlet property="viewCompareCount" destination="NGs-MR-STx" id="Y7X-fW-2dQ"/>
                         <outlet property="viewContainer" destination="dcA-lh-iyd" id="Mys-6P-1tm"/>
                         <outlet property="viewNoData" destination="TxB-92-gkd" id="K61-3N-tuf"/>
                     </connections>

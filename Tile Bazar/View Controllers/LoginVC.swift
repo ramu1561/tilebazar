@@ -19,11 +19,17 @@ class LoginVC: TBParentVC {
     var isComingFromSignUp = false
     var IsRegister = ""
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         let arrayCompareProductIDs:[String] = []
         UserDefaults.standard.set(arrayCompareProductIDs, forKey: "arrayCompareProductIDs")
+        
+        let arrayWatchlistProductIDs:[String] = []
+        UserDefaults.standard.set(arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+        
+        let arrayWatchlistSellerIDs:[String] = []
+        UserDefaults.standard.set(arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
+        
         tfPhoneNumber.delegate = self
         // Do any additional setup after loading the view.
     }

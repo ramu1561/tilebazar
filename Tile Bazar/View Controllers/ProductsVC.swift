@@ -16,6 +16,7 @@ class ProductsVC: ParentVC {
     var refreshcontrol : UIRefreshControl!
     
     var arrayCompareProductIDs:[String] = []
+    var arrayWatchlistProductIDs:[String] = []
     @IBOutlet weak var lblCompareCount: UILabel!
     @IBOutlet weak var viewCompareCount: UIView!
     
@@ -33,6 +34,7 @@ class ProductsVC: ParentVC {
     override func viewWillAppear(_ animated: Bool) {
         arrayCompareProductIDs = UserDefaults.standard.stringArray(forKey: "arrayCompareProductIDs") ?? [String]()
         checkCompareProducts()
+        arrayWatchlistProductIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistProductIDs") ?? [String]()
         offset = "0"
         wsCallGetWatchlistProducts(limit: "10")
     }
@@ -57,7 +59,9 @@ class ProductsVC: ParentVC {
         self.present(reportPostVC, animated: true, completion: nil)
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
+        arrayWatchlistProductIDs.removeElement(element:self.arrWatchlistProducts[sender.tag].id ?? "")
         wsCallRemoveProductFromWatchlist(product_id: self.arrWatchlistProducts[sender.tag].id ?? "")
+        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         if arrayCompareProductIDs.contains(self.arrWatchlistProducts[sender.tag].id ?? ""){
@@ -225,17 +229,14 @@ extension ProductsVC{
         }
     }
     func wsCallRemoveProductFromWatchlist(product_id:String){
-        self.showSpinner()
         let param = ["product_id":product_id]
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeProductFromWatchlist, method: .post, param:param, headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (response, statuscode) in
-            self.hideSpinner()
             print(response)
             self.offset = "0"
             self.wsCallGetWatchlistProducts(limit: "10")
             
         }, erroHandler: { (response, statuscode) in
             print("Error\(response)")
-            self.hideSpinner()
             var errorCode = ""
             if let item = response["ErrorCode"]{
                 if item is String{
@@ -253,7 +254,6 @@ extension ProductsVC{
             }
             
         }) { (error) in
-            self.hideSpinner()
         }
     }
 }

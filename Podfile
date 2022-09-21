@@ -8,5 +8,8 @@ target 'Tile Bazar' do
   pod 'AssetsPickerViewController'
   pod 'Alamofire', '~> 4.0'
   pod 'Toast-Swift', '~> 4.0.0'
+  #firebase
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
   
 end

@@ -23,6 +23,8 @@ class MyProductsVC: ParentVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         addRefreshcontrol()
+        offset = "0"
+        self.wsCallGetUserProducts(limit: "10", user_id: userInfo?.id ?? "")
         // Do any additional setup after loading the view.
     }
     func addRefreshcontrol(){
@@ -41,8 +43,7 @@ class MyProductsVC: ParentVC {
     override func viewWillAppear(_ animated: Bool) {
         arrayCompareProductIDs = UserDefaults.standard.stringArray(forKey: "arrayCompareProductIDs") ?? [String]()
         checkCompareProducts()
-        offset = "0"
-        self.wsCallGetUserProducts(limit: "10", user_id: userInfo?.id ?? "")
+        self.tblView.reloadData()
         self.tabBarController?.tabBar.isHidden = true
     }
     override func viewWillDisappear(_ animated: Bool) {

@@ -47,6 +47,7 @@
 		18BFAA2328A8F88A0018FB4A /* SellersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BFAA2228A8F88A0018FB4A /* SellersVC.swift */; };
 		18C4B04D28A8171A00CFDAE1 /* MarketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C4B04C28A8171A00CFDAE1 /* MarketVC.swift */; };
 		18C4B04F28A81CD400CFDAE1 /* SeeAllProductsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C4B04E28A81CD400CFDAE1 /* SeeAllProductsVC.swift */; };
+		18C6481A28D8359600400F73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18C6481928D8359600400F73 /* GoogleService-Info.plist */; };
 		18DC329D28A77102003DBBC8 /* CustomUIClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC329C28A77102003DBBC8 /* CustomUIClasses.swift */; };
 		18DC329F28A7714C003DBBC8 /* TBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC329E28A7714C003DBBC8 /* TBExtensions.swift */; };
 		18DC32A128A77904003DBBC8 /* TBParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC32A028A77904003DBBC8 /* TBParentVC.swift */; };
@@ -152,6 +153,7 @@
 		18BFAA2228A8F88A0018FB4A /* SellersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellersVC.swift; sourceTree = "<group>"; };
 		18C4B04C28A8171A00CFDAE1 /* MarketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketVC.swift; sourceTree = "<group>"; };
 		18C4B04E28A81CD400CFDAE1 /* SeeAllProductsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllProductsVC.swift; sourceTree = "<group>"; };
+		18C6481928D8359600400F73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		18DC329C28A77102003DBBC8 /* CustomUIClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIClasses.swift; sourceTree = "<group>"; };
 		18DC329E28A7714C003DBBC8 /* TBExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBExtensions.swift; sourceTree = "<group>"; };
 		18DC32A028A77904003DBBC8 /* TBParentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBParentVC.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 		184E804A28A618F60067EE50 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				18C6481928D8359600400F73 /* GoogleService-Info.plist */,
 				184E801A28A617360067EE50 /* AppDelegate.swift */,
 				187276DC28AA6B5B008202CA /* WSCalls.swift */,
 				187276DE28AA6BBE008202CA /* Consts.swift */,
@@ -568,6 +571,7 @@
 				18DC32B328A77D1F003DBBC8 /* Roboto-BoldItalic.ttf in Resources */,
 				18DC32B728A77D2A003DBBC8 /* Roboto-Medium.ttf in Resources */,
 				18DC32B928A77D35003DBBC8 /* Roboto-Regular.ttf in Resources */,
+				18C6481A28D8359600400F73 /* GoogleService-Info.plist in Resources */,
 				18DC32B028A77D16003DBBC8 /* Roboto-Black.ttf in Resources */,
 				18DC32B528A77D25003DBBC8 /* Roboto-Light.ttf in Resources */,
 			);
