@@ -279,12 +279,14 @@ class AddProductVC: ParentVC,UITextViewDelegate{
     }
     func textViewDidChange(_ textView: UITextView){
         checkTextViewData()
+        
     }
     func checkTextViewData(){
         placeholderLabel.isHidden = !tvNotes.text.isEmpty
         lblNoteCount.text = "\(tvNotes.text.count)/200"
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        /*
         // get the current text, or use an empty string if that failed
         let currentText = textView.text ?? ""
         // attempt to read the range they are trying to change, or exit if we can't
@@ -293,6 +295,20 @@ class AddProductVC: ParentVC,UITextViewDelegate{
         let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
         // make sure the result is under 200 characters
         return updatedText.count <= 200
+        */
+        
+        let regex = try! NSRegularExpression(pattern: "[a-zA-Z\\s]+", options: [])
+        let range = regex.rangeOfFirstMatch(in: text, options: [], range: NSRange(location: 0, length: text.count))
+        return range.length == text.count && self.textLimit(existingText: textView.text,
+                                                            newText: text,
+                                                            limit: 200)
+    }
+    private func textLimit(existingText: String?,
+                           newText: String,
+                           limit: Int) -> Bool {
+        let text = existingText ?? ""
+        let isAtLimit = text.count + newText.count <= limit
+        return isAtLimit
     }
     func checkRateTypes(){
         if price_category_id == "1"{

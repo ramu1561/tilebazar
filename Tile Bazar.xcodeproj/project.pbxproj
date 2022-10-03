@@ -47,7 +47,7 @@
 		18BFAA2328A8F88A0018FB4A /* SellersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BFAA2228A8F88A0018FB4A /* SellersVC.swift */; };
 		18C4B04D28A8171A00CFDAE1 /* MarketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C4B04C28A8171A00CFDAE1 /* MarketVC.swift */; };
 		18C4B04F28A81CD400CFDAE1 /* SeeAllProductsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C4B04E28A81CD400CFDAE1 /* SeeAllProductsVC.swift */; };
-		18C6481A28D8359600400F73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18C6481928D8359600400F73 /* GoogleService-Info.plist */; };
+		18D9C49F28E1C69E00D9A322 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18D9C49E28E1C69E00D9A322 /* GoogleService-Info.plist */; };
 		18DC329D28A77102003DBBC8 /* CustomUIClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC329C28A77102003DBBC8 /* CustomUIClasses.swift */; };
 		18DC329F28A7714C003DBBC8 /* TBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC329E28A7714C003DBBC8 /* TBExtensions.swift */; };
 		18DC32A128A77904003DBBC8 /* TBParentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC32A028A77904003DBBC8 /* TBParentVC.swift */; };
@@ -73,6 +73,10 @@
 		18F32ACB28BE119400F4EAD7 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F32ACA28BE119400F4EAD7 /* MenuVC.swift */; };
 		18F32ACD28BE1CA700F4EAD7 /* TBWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F32ACC28BE1CA700F4EAD7 /* TBWebVC.swift */; };
 		18F32ACF28BE32C500F4EAD7 /* InitialSlidersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F32ACE28BE32C500F4EAD7 /* InitialSlidersVC.swift */; };
+		18F4AAA428E5759600A05905 /* biennale_medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 18F4AAA228E5758F00A05905 /* biennale_medium.otf */; };
+		18F4AAA528E5759900A05905 /* biennale_regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 18F4AAA128E5758E00A05905 /* biennale_regular.otf */; };
+		18F4AAA628E5759C00A05905 /* biennale_semi_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 18F4AAA028E5758C00A05905 /* biennale_semi_bold.otf */; };
+		18F4AAA728E5759F00A05905 /* sequel_sans_vf_disp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F4AAA328E5759100A05905 /* sequel_sans_vf_disp.ttf */; };
 		18FC80F728B39B1B0061CD8E /* ReportPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FC80F628B39B1B0061CD8E /* ReportPostVC.swift */; };
 		18FDAFAD28B7B6EE00B7750C /* ProductDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDAFAC28B7B6EE00B7750C /* ProductDetailsVC.swift */; };
 		18FDE32828B11EE5007DEB03 /* SelectStateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDE32728B11EE5007DEB03 /* SelectStateVC.swift */; };
@@ -153,7 +157,8 @@
 		18BFAA2228A8F88A0018FB4A /* SellersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellersVC.swift; sourceTree = "<group>"; };
 		18C4B04C28A8171A00CFDAE1 /* MarketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketVC.swift; sourceTree = "<group>"; };
 		18C4B04E28A81CD400CFDAE1 /* SeeAllProductsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllProductsVC.swift; sourceTree = "<group>"; };
-		18C6481928D8359600400F73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18D9C49E28E1C69E00D9A322 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		18D9C4A328E1D08400D9A322 /* Tile Bazar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tile Bazar.entitlements"; sourceTree = "<group>"; };
 		18DC329C28A77102003DBBC8 /* CustomUIClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIClasses.swift; sourceTree = "<group>"; };
 		18DC329E28A7714C003DBBC8 /* TBExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBExtensions.swift; sourceTree = "<group>"; };
 		18DC32A028A77904003DBBC8 /* TBParentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBParentVC.swift; sourceTree = "<group>"; };
@@ -179,6 +184,10 @@
 		18F32ACA28BE119400F4EAD7 /* MenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		18F32ACC28BE1CA700F4EAD7 /* TBWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TBWebVC.swift; sourceTree = "<group>"; };
 		18F32ACE28BE32C500F4EAD7 /* InitialSlidersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialSlidersVC.swift; sourceTree = "<group>"; };
+		18F4AAA028E5758C00A05905 /* biennale_semi_bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = biennale_semi_bold.otf; sourceTree = "<group>"; };
+		18F4AAA128E5758E00A05905 /* biennale_regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = biennale_regular.otf; sourceTree = "<group>"; };
+		18F4AAA228E5758F00A05905 /* biennale_medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = biennale_medium.otf; sourceTree = "<group>"; };
+		18F4AAA328E5759100A05905 /* sequel_sans_vf_disp.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sequel_sans_vf_disp.ttf; sourceTree = "<group>"; };
 		18FC80F628B39B1B0061CD8E /* ReportPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPostVC.swift; sourceTree = "<group>"; };
 		18FDAFAC28B7B6EE00B7750C /* ProductDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsVC.swift; sourceTree = "<group>"; };
 		18FDE32728B11EE5007DEB03 /* SelectStateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStateVC.swift; sourceTree = "<group>"; };
@@ -238,6 +247,7 @@
 		184E801928A617360067EE50 /* Tile Bazar */ = {
 			isa = PBXGroup;
 			children = (
+				18D9C4A328E1D08400D9A322 /* Tile Bazar.entitlements */,
 				184E804F28A619470067EE50 /* Storyboard */,
 				184E804E28A6192B0067EE50 /* Custom Classes */,
 				184E804D28A619220067EE50 /* Fonts */,
@@ -269,7 +279,7 @@
 		184E804A28A618F60067EE50 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				18C6481928D8359600400F73 /* GoogleService-Info.plist */,
+				18D9C49E28E1C69E00D9A322 /* GoogleService-Info.plist */,
 				184E801A28A617360067EE50 /* AppDelegate.swift */,
 				187276DC28AA6B5B008202CA /* WSCalls.swift */,
 				187276DE28AA6BBE008202CA /* Consts.swift */,
@@ -326,6 +336,10 @@
 		184E804D28A619220067EE50 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				18F4AAA228E5758F00A05905 /* biennale_medium.otf */,
+				18F4AAA128E5758E00A05905 /* biennale_regular.otf */,
+				18F4AAA028E5758C00A05905 /* biennale_semi_bold.otf */,
+				18F4AAA328E5759100A05905 /* sequel_sans_vf_disp.ttf */,
 				18DC32AB28A779DE003DBBC8 /* Roboto-Black.ttf */,
 				18DC32AE28A779DE003DBBC8 /* Roboto-BlackItalic.ttf */,
 				18DC32A928A779DD003DBBC8 /* Roboto-Bold.ttf */,
@@ -469,6 +483,8 @@
 			dependencies = (
 			);
 			name = "Tile Bazar";
+			packageProductDependencies = (
+			);
 			productName = "Tile Bazar";
 			productReference = 184E801728A617360067EE50 /* Tile Bazar.app */;
 			productType = "com.apple.product-type.application";
@@ -542,6 +558,8 @@
 				Base,
 			);
 			mainGroup = 184E800E28A617360067EE50;
+			packageReferences = (
+			);
 			productRefGroup = 184E801828A617360067EE50 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -561,6 +579,8 @@
 				18DC32BB28A77D3A003DBBC8 /* Roboto-ThinItalic.ttf in Resources */,
 				18DC32BA28A77D37003DBBC8 /* Roboto-Thin.ttf in Resources */,
 				184E802728A6173D0067EE50 /* LaunchScreen.storyboard in Resources */,
+				18F4AAA428E5759600A05905 /* biennale_medium.otf in Resources */,
+				18F4AAA628E5759C00A05905 /* biennale_semi_bold.otf in Resources */,
 				184E802428A6173D0067EE50 /* Assets.xcassets in Resources */,
 				18DC32B628A77D27003DBBC8 /* Roboto-LightItalic.ttf in Resources */,
 				18DC32B228A77D1C003DBBC8 /* Roboto-Bold.ttf in Resources */,
@@ -568,11 +588,13 @@
 				18DC32B128A77D19003DBBC8 /* Roboto-BlackItalic.ttf in Resources */,
 				184E802228A617360067EE50 /* Main.storyboard in Resources */,
 				18DC32B428A77D22003DBBC8 /* Roboto-Italic.ttf in Resources */,
+				18F4AAA728E5759F00A05905 /* sequel_sans_vf_disp.ttf in Resources */,
 				18DC32B328A77D1F003DBBC8 /* Roboto-BoldItalic.ttf in Resources */,
 				18DC32B728A77D2A003DBBC8 /* Roboto-Medium.ttf in Resources */,
 				18DC32B928A77D35003DBBC8 /* Roboto-Regular.ttf in Resources */,
-				18C6481A28D8359600400F73 /* GoogleService-Info.plist in Resources */,
 				18DC32B028A77D16003DBBC8 /* Roboto-Black.ttf in Resources */,
+				18D9C49F28E1C69E00D9A322 /* GoogleService-Info.plist in Resources */,
+				18F4AAA528E5759900A05905 /* biennale_regular.otf in Resources */,
 				18DC32B528A77D25003DBBC8 /* Roboto-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -868,9 +890,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Tile Bazar/Tile Bazar.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 893ARLPD66;
+				DEVELOPMENT_TEAM = C9B8Z8ZZKH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tile Bazar/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "App would like to access your camera for your profile photo upload";
@@ -890,6 +914,7 @@
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Tile Bazar/Custom Classes/TOCropViewController/Tile Bazar-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -905,9 +930,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Tile Bazar/Tile Bazar.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 893ARLPD66;
+				DEVELOPMENT_TEAM = C9B8Z8ZZKH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tile Bazar/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "App would like to access your camera for your profile photo upload";
@@ -927,6 +954,7 @@
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Tile Bazar/Custom Classes/TOCropViewController/Tile Bazar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

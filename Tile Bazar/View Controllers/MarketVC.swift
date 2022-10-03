@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDynamicLinks
 
 class MarketVC: ParentVC {
 
@@ -31,10 +32,13 @@ class MarketVC: ParentVC {
         super.viewDidLoad()
         MarketVC.sharedInstance = self
         addRefreshcontrol()
+        callWebservice()
+        // Do any additional setup after loading the view.
+    }
+    func callWebservice(){
         offset = "0"
         self.arrProductIDs.removeAll()
         wsCallGetUserProducts(limit: "10", sort_by: sort_by)
-        // Do any additional setup after loading the view.
     }
     func addRefreshcontrol(){
         refreshcontrol = UIRefreshControl()
@@ -53,9 +57,7 @@ class MarketVC: ParentVC {
         self.filterArrayForReset.removeAll()
         self.filter_params.removeAll()
         self.sort_by = "0"
-        offset = "0"
-        self.arrProductIDs.removeAll()
-        wsCallGetUserProducts(limit: "10", sort_by: sort_by)
+        callWebservice()
     }
     func checkCompareProducts(){
         self.lblCompareCount.text = "\(self.arrayCompareProductIDs.count)"
@@ -160,6 +162,24 @@ class MarketVC: ParentVC {
         self.tblView.reloadData()
     }
     @IBAction func toggleShare(_ sender: UIButton) {
+        let product_id = arrUserProducts[sender.tag].id ?? ""
+        guard let link = URL(string:"https://tilesbazar.page.link/productdetails/\(product_id)") else { return }
+        let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix:"https://tilesbazar.page.link")
+        linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID:"com.app.Tile-Bazar")
+        linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.app.tilesbazar")
+        guard let longDynamicLink = linkBuilder?.url else { return }
+       
+        DynamicLinkComponents.shortenURL(longDynamicLink, options: nil) { url, warnings, error in
+            if url != nil{
+                let activityViewController = UIActivityViewController(activityItems: ["\(userInfo?.name ?? "") shared a best deal with you. Please check and get more exclusive deals.",url!], applicationActivities: nil)
+                if let popoverController = activityViewController.popoverPresentationController {
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
 }
 extension MarketVC:UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{
@@ -172,6 +192,12 @@ extension MarketVC:UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegat
         cell.btnWatchlist.tag = indexPath.row
         cell.btnCompare.tag = indexPath.row
         cell.btnShare.tag = indexPath.row
+        
+        cell.lblCategoryName.font = UIFont(name: "Biennale-SemiBold", size: 16)
+        cell.lblCompanyName.font = UIFont(name: "Biennale-Medium", size: 12)
+        cell.lblSize.font = UIFont(name: "Biennale-Regular", size: 13)
+        cell.lblGrade.font = UIFont(name: "Biennale-Regular", size: 13)
+        cell.lblReportTitle.font = UIFont(name: "Biennale-Regular", size: 12)
         
         cell.imgProduct.sd_setImage(with:URL(string:arrUserProducts[indexPath.row].category_image ?? ""), completed: { (image, error, SDImageCacheTypeDisk, url) in
         })

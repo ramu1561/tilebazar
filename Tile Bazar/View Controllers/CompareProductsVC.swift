@@ -208,7 +208,12 @@ extension CompareProductsVC:UICollectionViewDelegate,UICollectionViewDataSource,
             }
              cell.btnDelete.tag = indexPath.item
              cell.lblCategoryName.text = self.arrProducts[indexPath.item].category_name ?? ""
-             cell.lblCompanyName.text = self.arrProducts[indexPath.item].company_name ?? ""
+            if (HomeVC.sharedInstance?.is_paid ?? "") == "2"{
+                cell.lblCompanyName.text = self.arrProducts[indexPath.row].company_name ?? ""
+            }
+            else{
+                cell.lblCompanyName.text = self.starifyNumber(number:self.arrProducts[indexPath.row].company_name ?? "")
+            }
              let priceTypeName = (self.arrProducts[indexPath.row].price_type_name ?? "").replacingOccurrences(of: "per ", with: "").firstCapitalized
              cell.lblPriceNType.text = "\(self.arrProducts[indexPath.row].price ?? "")/\(priceTypeName)"
             return cell
@@ -217,7 +222,12 @@ extension CompareProductsVC:UICollectionViewDelegate,UICollectionViewDataSource,
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCellCompareProducts", for: indexPath) as? CollectionCellCompareProducts else{
                 return UICollectionViewCell()
             }
-            cell.lblCompanyName.text = self.arrProducts[indexPath.item].company_name ?? ""
+            if (HomeVC.sharedInstance?.is_paid ?? "") == "2"{
+                cell.lblCompanyName.text = self.arrProducts[indexPath.item].company_name ?? ""
+            }
+            else{
+                cell.lblCompanyName.text = self.starifyNumber(number:self.arrProducts[indexPath.item].company_name ?? "")
+            }
             cell.lblCategory.text = self.arrProducts[indexPath.item].category_name ?? ""
             cell.lblGrade.text = self.arrProducts[indexPath.item].grade_name ?? ""
             cell.lblTileSize.text = self.arrProducts[indexPath.item].tile_size_name ?? ""

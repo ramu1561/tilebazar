@@ -8,6 +8,8 @@
 import UIKit
 import IQKeyboardManagerSwift
 import FirebaseCore
+import FirebaseDynamicLinks
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        Thread.sleep(forTimeInterval: 3.0)
         FirebaseApp.configure()
         
         IQKeyboardManager.shared.enable = true
@@ -41,6 +43,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appDelegate.window?.rootViewController = rootViewController
          */
         return true
+    }
+}
+//MARK: Firebase dynamic links
+extension AppDelegate{
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+      let handled = DynamicLinks.dynamicLinks()
+        .handleUniversalLink(userActivity.webpageURL!) { dynamiclink, error in
+          // ...
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            if let url = dynamiclink?.url{
+                let urlString = "\(url)"
+                let linkArray = urlString.components(separatedBy: "/")
+                let linkID = linkArray.last
+                
+                if urlString.contains("sellerdetails"){
+                    if  let sellerDetailsVC = storyboard.instantiateViewController(withIdentifier: "SellerDetailsVC") as? SellerDetailsVC,
+                        let tabBarController = self.window?.rootViewController as? UITabBarController,
+                        let navController = tabBarController.selectedViewController as? UINavigationController {
+                        sellerDetailsVC.user_id = linkID ?? ""
+                        navController.pushViewController(sellerDetailsVC, animated:false)
+                    }
+                }
+                else if urlString.contains("productdetails"){
+                    if  let productDetailsVC = storyboard.instantiateViewController(withIdentifier: "ProductDetailsVC") as? ProductDetailsVC,
+                        let tabBarController = self.window?.rootViewController as? UITabBarController,
+                        let navController = tabBarController.selectedViewController as? UINavigationController {
+                        productDetailsVC.product_id = linkID ?? ""
+                        navController.pushViewController(productDetailsVC, animated:false)
+                    }
+                }
+                else{
+                    
+                }
+            }
+            
+        }
+      return handled
     }
 }
 extension AppDelegate {

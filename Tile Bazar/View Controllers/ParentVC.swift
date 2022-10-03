@@ -76,7 +76,16 @@ class ParentVC: UIViewController {
     }
     //open whatsapp
     func openWhatsapp(phoneNumber:String){
-        let urlWhats = "whatsapp://send?phone=\(phoneNumber)"
+        
+        var phone = ""
+        if phoneNumber.hasPrefix("+"){
+            phone = phoneNumber
+        }
+        else{
+            phone = "+91\(phoneNumber)"
+        }
+        
+        let urlWhats = "whatsapp://send?phone=\(phone)"
         if let urlString = urlWhats.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed){
             if let whatsappURL = URL(string: urlString) {
                 if UIApplication.shared.canOpenURL(whatsappURL){

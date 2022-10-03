@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDynamicLinks
 
 class CellDirectoryItems:UITableViewCell{
     @IBOutlet weak var imgUser: UIImageView!
@@ -206,7 +207,24 @@ class DirectoryVC: ParentVC {
         self.tblView.reloadData()
     }
     @IBAction func toggleShare(_ sender: UIButton) {
-        
+        let seller_id = arrDirectory[sender.tag].id ?? ""
+        guard let link = URL(string:"https://tilesbazar.page.link/sellerdetails/\(seller_id)") else { return }
+        let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix:"https://tilesbazar.page.link")
+        linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID:"com.app.Tile-Bazar")
+        linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.app.tilesbazar")
+        guard let longDynamicLink = linkBuilder?.url else { return }
+       
+        DynamicLinkComponents.shortenURL(longDynamicLink, options: nil) { url, warnings, error in
+            if url != nil{
+                let activityViewController = UIActivityViewController(activityItems: ["\(userInfo?.name ?? "") shared a best deal with you. Please check and get more exclusive deals.",url!], applicationActivities: nil)
+                if let popoverController = activityViewController.popoverPresentationController {
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
 }
 extension DirectoryVC:UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{
@@ -218,7 +236,7 @@ extension DirectoryVC:UITableViewDelegate,UITableViewDataSource,UIScrollViewDele
         cell.btnReport.tag = indexPath.row
         cell.btnWatchlist.tag = indexPath.row
         cell.btnShare.tag = indexPath.row
-        
+        cell.lblCompanyName.font = UIFont(name: "Biennale-SemiBold", size: 16)
         cell.imgUser.sd_setImage(with:URL(string:arrDirectory[indexPath.row].image ?? ""), completed: { (image, error, SDImageCacheTypeDisk, url) in
         })
         

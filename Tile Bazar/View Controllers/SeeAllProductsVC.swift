@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDynamicLinks
 
 class SeeAllProductsVC: ParentVC {
 
@@ -125,6 +126,24 @@ class SeeAllProductsVC: ParentVC {
         self.tblView.reloadData()
     }
     @IBAction func toggleShare(_ sender: UIButton) {
+        let product_id = arrSeeAllProducts[sender.tag].id ?? ""
+        guard let link = URL(string:"https://tilesbazar.page.link/productdetails/\(product_id)") else { return }
+        let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix:"https://tilesbazar.page.link")
+        linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID:"com.app.Tile-Bazar")
+        linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.app.tilesbazar")
+        guard let longDynamicLink = linkBuilder?.url else { return }
+       
+        DynamicLinkComponents.shortenURL(longDynamicLink, options: nil) { url, warnings, error in
+            if url != nil{
+                let activityViewController = UIActivityViewController(activityItems: ["\(userInfo?.name ?? "") shared a best deal with you. Please check and get more exclusive deals.",url!], applicationActivities: nil)
+                if let popoverController = activityViewController.popoverPresentationController {
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
 }
 extension SeeAllProductsVC:UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{
@@ -137,6 +156,12 @@ extension SeeAllProductsVC:UITableViewDelegate,UITableViewDataSource,UIScrollVie
         cell.btnWatchlist.tag = indexPath.row
         cell.btnCompare.tag = indexPath.row
         cell.btnShare.tag = indexPath.row
+        
+        cell.lblCategoryName.font = UIFont(name: "Biennale-SemiBold", size: 16)
+        cell.lblCompanyName.font = UIFont(name: "Biennale-Medium", size: 12)
+        cell.lblSize.font = UIFont(name: "Biennale-Regular", size: 13)
+        cell.lblGrade.font = UIFont(name: "Biennale-Regular", size: 13)
+        cell.lblReportTitle.font = UIFont(name: "Biennale-Regular", size: 12)
         
         cell.imgProduct.sd_setImage(with:URL(string:arrSeeAllProducts[indexPath.row].category_image ?? ""), completed: { (image, error, SDImageCacheTypeDisk, url) in
         })

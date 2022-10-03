@@ -115,7 +115,12 @@ extension SignUpVC: UITextFieldDelegate {
             // The error message will only disappear when we reset it to nil or empty string
             floatingLabelTextField.errorMessage = ""
         }
-        if textField == tfPhoneNumber{
+        if textField == tfFullname{
+            let regex = try! NSRegularExpression(pattern: "[a-zA-Z\\s]+", options: [])
+            let range = regex.rangeOfFirstMatch(in: string, options: [], range: NSRange(location: 0, length: string.count))
+            return range.length == string.count
+        }
+        else if textField == tfPhoneNumber{
             let maxLength = 10
             let currentString: NSString = textField.text! as NSString
             let newString: NSString =

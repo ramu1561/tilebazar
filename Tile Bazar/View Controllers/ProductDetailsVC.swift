@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDynamicLinks
 
 class CellProductDetailsList:UITableViewCell{
     @IBOutlet weak var lblTitle: UILabel!
@@ -24,6 +25,7 @@ class ProductDetailsVC: ParentVC {
     @IBOutlet weak var lblPriceAndType: UILabel!
     @IBOutlet weak var lblCity: UILabel!
     
+    @IBOutlet weak var lblReportTitle: UILabel!
     @IBOutlet weak var btnWatchlist: UIButton!
     @IBOutlet weak var btnCompare: UIButton!
     var product_id = ""
@@ -48,11 +50,17 @@ class ProductDetailsVC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         btnWatchlist.setImage(UIImage(named: "icon_add_watchlist"), for: .normal)
         btnWatchlist.setImage(UIImage(named: "icon_remove_watchlist"), for: .selected)
         
         btnCompare.setImage(UIImage(named: "compare_select"), for: .normal)
         btnCompare.setImage(UIImage(named: "compare_selected"), for: .selected)
+        
+        self.lblCategoryName.font = UIFont(name: "Biennale-SemiBold", size: 16)
+        self.lblCompanyName.font = UIFont(name: "Biennale-Medium", size: 12)
+        self.lblGrade.font = UIFont(name: "Biennale-Regular", size: 13)
+        self.lblReportTitle.font = UIFont(name: "Biennale-Regular", size: 12)
         
         ProductDetailsVC.sharedInstance = self
         tblView.tableHeaderView = viewHeader
@@ -99,6 +107,23 @@ class ProductDetailsVC: ParentVC {
         checkCompareProducts()
     }
     @IBAction func toggleShare(_ sender: UIButton) {
+        guard let link = URL(string:"https://tilesbazar.page.link/productdetails/\(product_id)") else { return }
+        let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix:"https://tilesbazar.page.link")
+        linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID:"com.app.Tile-Bazar")
+        linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.app.tilesbazar")
+        guard let longDynamicLink = linkBuilder?.url else { return }
+       
+        DynamicLinkComponents.shortenURL(longDynamicLink, options: nil) { url, warnings, error in
+            if url != nil{
+                let activityViewController = UIActivityViewController(activityItems: ["\(userInfo?.name ?? "") shared a best deal with you. Please check and get more exclusive deals.",url!], applicationActivities: nil)
+                if let popoverController = activityViewController.popoverPresentationController {
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
     func checkCompareProducts(){
         if arrayCompareProductIDs.contains(product_id)

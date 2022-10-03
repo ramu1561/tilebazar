@@ -104,6 +104,7 @@ class FiltersVC: ParentVC {
             MarketVC.sharedInstance?.filterArray = self.filterArray
             MarketVC.sharedInstance?.filter_params = filter_params
             MarketVC.sharedInstance?.filterArrayForReset = self.filterArrayForReset
+            MarketVC.sharedInstance?.callWebservice()
             self.navigationController?.popViewController(animated: true)
         }
         else{

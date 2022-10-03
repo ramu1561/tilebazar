@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseDynamicLinks
 
 class CellHomeProductsHeader:UITableViewCell{
     @IBOutlet weak var lblTitle: UILabel!
@@ -18,6 +19,7 @@ class CellHomeProducts:UITableViewCell{
     @IBOutlet weak var lblGrade: UILabel!
     @IBOutlet weak var lblPriceAndType: UILabel!
     @IBOutlet weak var lblCity: UILabel!
+    @IBOutlet weak var lblReportTitle: UILabel!
     @IBOutlet weak var imgReport: UIImageView!
     @IBOutlet weak var btnReport: UIButton!
     @IBOutlet weak var imgWatchlistIcon: UIImageView!
@@ -349,6 +351,8 @@ class HomeVC: ParentVC {
     @IBOutlet weak var lblCompareCount: UILabel!
     @IBOutlet weak var viewCompareCount: UIView!
     @IBOutlet weak var viewNoData: UIView!
+    var timer : Timer?
+    var pageIndex : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -357,7 +361,6 @@ class HomeVC: ParentVC {
         tblViewProducts.delegate = self
         tblViewProducts.dataSource = self
         HomeVC.sharedInstance = self
-        tblViewProducts.tableHeaderView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 0.0, height: Double.leastNormalMagnitude))
         addRefreshcontrol()
         wsCallDashboard()
         // Do any additional setup after loading the view.
@@ -392,6 +395,14 @@ class HomeVC: ParentVC {
         checkCompareProducts()
         arrayWatchlistProductIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistProductIDs") ?? [String]()
         self.tblViewProducts.reloadData()
+        
+        collectionViewBanner.scrollRectToVisible(CGRect(x: 0, y: collectionViewBanner.contentOffset.y, width: self.collectionViewBanner.frame.size.width, height:self.collectionViewBanner.frame.size.height), animated: true)
+        self.pageIndex = 0
+        self.pageControl.currentPage = 0
+        startTimer()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        stopTimer()
     }
     //MARK: Button Actions
     @IBAction func toggleHomeButtons(_ sender: UIButton) {
@@ -504,6 +515,38 @@ class HomeVC: ParentVC {
         self.tblViewProducts.reloadData()
     }
     @IBAction func toggleShare(_ sender: UIButton) {
+        
+        var product_id = ""//arrFeaturedProducts[sender.tag].id ?? ""
+        let buttonPosition = sender.convert(CGPoint.zero, to: self.tblViewProducts)
+        let indexPath = self.tblViewProducts.indexPathForRow(at:buttonPosition)
+        
+        if (indexPath?.section ?? 0) == 0{
+            product_id = self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? ""
+        }
+        else if (indexPath?.section ?? 0) == 1{
+            product_id = self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? ""
+        }
+        else{
+            product_id = self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? ""
+        }
+        
+        guard let link = URL(string:"https://tilesbazar.page.link/productdetails/\(product_id)") else { return }
+        let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix:"https://tilesbazar.page.link")
+        linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID:"com.app.Tile-Bazar")
+        linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.app.tilesbazar")
+        guard let longDynamicLink = linkBuilder?.url else { return }
+       
+        DynamicLinkComponents.shortenURL(longDynamicLink, options: nil) { url, warnings, error in
+            if url != nil{
+                let activityViewController = UIActivityViewController(activityItems: ["\(userInfo?.name ?? "") shared a best deal with you. Please check and get more exclusive deals.",url!], applicationActivities: nil)
+                if let popoverController = activityViewController.popoverPresentationController {
+                    popoverController.sourceView = self.view
+                    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popoverController.permittedArrowDirections = []
+                }
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
     func checkCompareProducts(){
         self.lblCompareCount.text = "\(self.arrayCompareProductIDs.count)"
@@ -512,6 +555,41 @@ class HomeVC: ParentVC {
         }
         else{
             self.viewCompareCount.isHidden = true
+        }
+    }
+    //MARK: Sliders Auto Scroll
+    @objc func scrollToNextCell(){
+        //get cell size
+        let cellSize = CGSize(width: self.collectionViewBanner.frame.size.width, height: self.collectionViewBanner.frame.size.height)
+        //get current content Offset of the Collection view
+        let contentOffset = collectionViewBanner.contentOffset
+        if collectionViewBanner.contentSize.width <= collectionViewBanner.contentOffset.x + cellSize.width
+        {
+            collectionViewBanner.scrollRectToVisible(CGRect(x: 0, y: contentOffset.y, width: cellSize.width, height: cellSize.height), animated: true)
+            self.pageIndex = 0
+            
+        } else {
+            collectionViewBanner.scrollRectToVisible(CGRect(x: contentOffset.x + cellSize.width, y: contentOffset.y, width: cellSize.width, height: cellSize.height), animated: true)
+            self.pageIndex = self.pageIndex + 1
+        }
+        for cell in collectionViewBanner.visibleCells as [UICollectionViewCell]{
+            let indexPath = collectionViewBanner.indexPath(for: cell as! CollectionCellHomeBanners)
+            if (collectionViewBanner.cellForItem(at: IndexPath(item: (indexPath?.item)!, section: 0)) as? CollectionCellHomeBanners) != nil{
+                pageControl.currentPage = self.pageIndex
+            }
+        }
+    }
+    func startTimer()
+    {
+        if timer == nil{
+            timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(HomeVC.scrollToNextCell), userInfo: nil, repeats: true)
+        }
+    }
+    func stopTimer()
+    {
+        if timer != nil {
+            timer!.invalidate()
+            timer = nil
         }
     }
 }
@@ -673,7 +751,16 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == tblViewProducts{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CellHomeProducts") as! CellHomeProducts
+            
             cell.lblCity.text = "Ex. Morbi"
+            
+            cell.lblCategoryName.font = UIFont(name: "Biennale-SemiBold", size: 16)
+            cell.lblCompanyName.font = UIFont(name: "Biennale-Medium", size: 12)
+            cell.lblSize.font = UIFont(name: "Biennale-Regular", size: 13)
+            cell.lblGrade.font = UIFont(name: "Biennale-Regular", size: 13)
+            cell.lblReportTitle.font = UIFont(name: "Biennale-Regular", size: 12)
+            
+            
             if indexPath.section == 0{
                 cell.btnReport.tag = indexPath.row
                 cell.btnWatchlist.tag = indexPath.row
@@ -692,7 +779,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 }
                 
                 let attributedStringSize = NSMutableAttributedString(string: "Size: ")
-                let sizeAttrs = [NSAttributedString.Key.font : UIFont(name: "Roboto-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor.black]
+                let sizeAttrs = [NSAttributedString.Key.font : UIFont(name: "Biennale-Regular", size: 13) ?? UIFont.systemFont(ofSize: 13),NSAttributedString.Key.foregroundColor:UIColor.black]
                 let sizeNameFont = NSMutableAttributedString(string:self.arrFeaturedProducts[indexPath.row].tile_size_name ?? "", attributes: sizeAttrs)
                 attributedStringSize.insert(sizeNameFont, at: 6)
                 cell.lblSize.attributedText = attributedStringSize
@@ -700,7 +787,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 if (self.arrFeaturedProducts[indexPath.row].grade_name ?? "") == "Premium"{
                     //green
                     let attributedStringGrade = NSMutableAttributedString(string: "Grade: ")
-                    let gradeAttrs = [NSAttributedString.Key.font : UIFont(name: "Roboto-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor(hexString: "#00ae46")]
+                    let gradeAttrs = [NSAttributedString.Key.font : UIFont(name: "Biennale-Regular", size: 13) ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor(hexString: "#00ae46")]
                     let gradeNameFont = NSMutableAttributedString(string:self.arrFeaturedProducts[indexPath.row].grade_name ?? "", attributes: gradeAttrs)
                     attributedStringGrade.insert(gradeNameFont, at: 7)
                     cell.lblGrade.attributedText = attributedStringGrade
@@ -708,7 +795,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 else if (self.arrFeaturedProducts[indexPath.row].grade_name ?? "") == "Standard" || (self.arrFeaturedProducts[indexPath.row].grade_name ?? "") == "Commercial" || (self.arrFeaturedProducts[indexPath.row].grade_name ?? "") == "Eco"{
                     //blue
                     let attributedStringGrade = NSMutableAttributedString(string: "Grade: ")
-                    let gradeAttrs = [NSAttributedString.Key.font : UIFont(name: "Roboto-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor(hexString: "#0065FF")]
+                    let gradeAttrs = [NSAttributedString.Key.font : UIFont(name: "Biennale-Regular", size: 13) ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor(hexString: "#0065FF")]
                     let gradeNameFont = NSMutableAttributedString(string:self.arrFeaturedProducts[indexPath.row].grade_name ?? "", attributes: gradeAttrs)
                     attributedStringGrade.insert(gradeNameFont, at: 7)
                     cell.lblGrade.attributedText = attributedStringGrade
@@ -716,7 +803,7 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
                 else{
                     //red
                     let attributedStringGrade = NSMutableAttributedString(string: "Grade: ")
-                    let gradeAttrs = [NSAttributedString.Key.font : UIFont(name: "Roboto-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor(hexString: "#e50914")]
+                    let gradeAttrs = [NSAttributedString.Key.font : UIFont(name: "Biennale-Regular", size: 13) ?? UIFont.systemFont(ofSize: 14),NSAttributedString.Key.foregroundColor:UIColor(hexString: "#e50914")]
                     let gradeNameFont = NSMutableAttributedString(string:self.arrFeaturedProducts[indexPath.row].grade_name ?? "", attributes: gradeAttrs)
                     attributedStringGrade.insert(gradeNameFont, at: 7)
                     cell.lblGrade.attributedText = attributedStringGrade
@@ -937,7 +1024,10 @@ extension HomeVC : UICollectionViewDelegate,UICollectionViewDataSource,UICollect
         return CGSize(width: collectionViewBanner.frame.size.width, height: 120)
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        pageControl.currentPage = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+        if scrollView == collectionViewBanner{
+            self.pageIndex = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+            pageControl.currentPage = self.pageIndex
+        }
     }
 }
 extension HomeVC{
