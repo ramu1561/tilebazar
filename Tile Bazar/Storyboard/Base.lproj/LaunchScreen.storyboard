@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_splash" width="256" height="256"/>
+        <image name="icon_splash" width="512" height="512"/>
     </resources>
 </document>
