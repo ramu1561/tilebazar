@@ -482,16 +482,24 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zuR-7s-u6E">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="35"/>
-                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="4nV-I2-LjS"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Category"/>
+                                        <state key="normal" title="Category">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadious">
                                                 <real key="value" value="18"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" name="AccentColor"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -4200,6 +4208,20 @@
                                     </view>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5K-Ny-2eo">
+                                <rect key="frame" x="159.66666666666666" y="642" width="95" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ZmL-v9-Pxg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Delete Account">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleDeleteAccount:" destination="zsV-aL-dau" eventType="touchUpInside" id="dA0-DP-8pn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Vhk-5u-0e3"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4209,6 +4231,7 @@
                             <constraint firstItem="QF8-Cp-yr4" firstAttribute="leading" secondItem="Vhk-5u-0e3" secondAttribute="leading" constant="20" id="848-z6-O7r"/>
                             <constraint firstItem="qVp-0q-nNc" firstAttribute="leading" secondItem="Vhk-5u-0e3" secondAttribute="leading" id="B6x-1i-fW8"/>
                             <constraint firstItem="Vhk-5u-0e3" firstAttribute="trailing" secondItem="rig-Ib-ary" secondAttribute="trailing" constant="20" id="BwI-XN-abC"/>
+                            <constraint firstItem="Vhk-5u-0e3" firstAttribute="bottom" secondItem="P5K-Ny-2eo" secondAttribute="bottom" constant="15" id="Hcp-Fw-3o6"/>
                             <constraint firstItem="5GG-J6-t2s" firstAttribute="top" secondItem="1zK-qi-G8S" secondAttribute="bottom" constant="10" id="JEs-wN-fLR"/>
                             <constraint firstItem="mrU-DT-jzK" firstAttribute="top" secondItem="Vhk-5u-0e3" secondAttribute="top" constant="10" id="JeQ-mc-8jY"/>
                             <constraint firstItem="rig-Ib-ary" firstAttribute="leading" secondItem="Vhk-5u-0e3" secondAttribute="leading" constant="20" id="RJA-Tx-dWv"/>
@@ -4220,6 +4243,7 @@
                             <constraint firstItem="S1W-Rj-tmD" firstAttribute="leading" secondItem="ICs-5K-EIC" secondAttribute="leading" id="cEt-gJ-BuN"/>
                             <constraint firstItem="XiW-Zf-fEP" firstAttribute="centerX" secondItem="ICs-5K-EIC" secondAttribute="centerX" id="d9F-I1-XEq"/>
                             <constraint firstItem="rig-Ib-ary" firstAttribute="top" secondItem="XiW-Zf-fEP" secondAttribute="bottom" constant="30" id="gu6-m2-g9t"/>
+                            <constraint firstItem="P5K-Ny-2eo" firstAttribute="centerX" secondItem="ICs-5K-EIC" secondAttribute="centerX" id="ibc-3I-E1s"/>
                             <constraint firstItem="1zK-qi-G8S" firstAttribute="top" secondItem="S1W-Rj-tmD" secondAttribute="bottom" constant="35" id="k2A-TU-aE3"/>
                             <constraint firstItem="Vhk-5u-0e3" firstAttribute="trailing" secondItem="QF8-Cp-yr4" secondAttribute="trailing" constant="20" id="nqU-vS-D8b"/>
                             <constraint firstItem="G50-Vt-E7R" firstAttribute="leading" secondItem="Vhk-5u-0e3" secondAttribute="leading" constant="20" id="oE4-dA-b0e"/>

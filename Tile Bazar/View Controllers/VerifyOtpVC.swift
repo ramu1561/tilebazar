@@ -11,6 +11,7 @@ class VerifyOtpVC: TBParentVC {
 
     @IBOutlet weak var tfOTP: SkyFloatingLabelTextField!
     var phone_number = ""
+    var isComingFromRemoveAccount = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,17 @@ class VerifyOtpVC: TBParentVC {
         }
         tfOTP.delegate = self
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        if isComingFromRemoveAccount{
+            self.tabBarController?.tabBar.isHidden = false
+        }
+        else{
+            self.tabBarController?.tabBar.isHidden = true
+        }
     }
     func checkValidation() -> Bool{
         if tfOTP.text?.isEmptyOrWhitespace() ?? true{
@@ -36,13 +48,23 @@ class VerifyOtpVC: TBParentVC {
         if sender.tag == 1{
             //verify
             if checkValidation(){
-                self.wsCallVerifyOTP(phone_number: phone_number, access_code: tfOTP.text ?? "")
+                if isComingFromRemoveAccount{
+                    self.wsCallVerifyRemoveAccount(access_code: tfOTP.text ?? "")
+                }
+                else{
+                    self.wsCallVerifyOTP(phone_number: phone_number, access_code: tfOTP.text ?? "")
+                }
             }
         }
         else{
             //resend
             self.tfOTP.text = ""
-            self.wsCallResendOTP()
+            if isComingFromRemoveAccount{
+                self.wscallResendRemoveAccount()
+            }
+            else{
+                self.wsCallResendOTP()
+            }
         }
     }
 }
@@ -86,7 +108,6 @@ extension VerifyOtpVC{
             if let item = response["Data"]?.object(forKey: "city"){
                 UserDefaults.standard.set(item, forKey: "user_city")
             }
-            
             do{
                 //Login success, goto dashboard
                 let data = try JSONEncoder().encode(userInfo)
@@ -99,7 +120,6 @@ extension VerifyOtpVC{
                 
             }
             
-            
         }, erroHandler: { (response, statuscode) in
             self.hideSpinner()
             self.showAlert(msg: response["Message"] as? String ?? "")
@@ -109,6 +129,31 @@ extension VerifyOtpVC{
             print("Error Response: \(error)")
         }
     }
+    func wsCallVerifyRemoveAccount(access_code:String){
+       self.showSpinner()
+       WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.verifyRemoveAccount, method: .post, param: ["access_code":access_code], headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (repsonse, statuscode) in
+           print(repsonse)
+           self.hideSpinner()
+           UserDefaults.standard.removeObject(forKey: "UserInformation")
+           DispatchQueue.main.async{
+               let alert = UIAlertController(title: "", message: NSLocalizedString("Your account has been deleted successfully", comment: ""), preferredStyle:.alert)
+               let yes = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style:.default) { _ in
+                   self.makeRootViewController()
+               }
+               alert.addAction(yes)
+               self.present(alert, animated: false, completion: nil)
+           }
+           
+       }, erroHandler: { (response, statuscode) in
+           print("Error\(response)")
+           self.hideSpinner()
+           
+           
+       }) { (error) in
+           self.hideSpinner()
+           print("Error\(error)")
+       }
+   }
     private func wsCallResendOTP(){
         self.showSpinner()
         let param = ["phone_number":self.phone_number]
@@ -125,4 +170,20 @@ extension VerifyOtpVC{
             print("Error Response: \(error)")
         }
     }
+    func wscallResendRemoveAccount(){
+       self.showSpinner()
+       WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeAccount, method: .get, param: [:], headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (repsonse, statuscode) in
+           print(repsonse)
+           self.hideSpinner()
+           
+       }, erroHandler: { (response, statuscode) in
+           print("Error\(response)")
+           self.hideSpinner()
+           
+           
+       }) { (error) in
+           self.hideSpinner()
+           print("Error\(error)")
+       }
+   }
 }

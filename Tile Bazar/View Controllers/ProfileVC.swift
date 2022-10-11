@@ -51,6 +51,19 @@ class ProfileVC: ParentVC {
             self.navigationController?.pushViewController(editProfileVC, animated: true)
         }
     }
+    @IBAction func toggleDeleteAccount(_ sender: Any) {
+        DispatchQueue.main.async{
+            let alert = UIAlertController(title: "Delete Account", message: NSLocalizedString("Please note: By deleting your account, you will be permanently removing from our system.\n\nAre you sure you want to delete your account?", comment: ""), preferredStyle:.alert)
+            let yes = UIAlertAction(title: NSLocalizedString("Yes", comment: ""), style:.default) { _ in
+                //api call
+                self.wscallRemoveAccount()
+            }
+            let dismiss = UIAlertAction(title: NSLocalizedString("No", comment: ""), style:.cancel, handler: nil)
+            alert.addAction(yes)
+            alert.addAction(dismiss)
+            self.present(alert, animated: false, completion: nil)
+        }
+    }
     func toggleUserLogOut(){
         DispatchQueue.main.async{
             let alert = UIAlertController(title: "", message: NSLocalizedString("Are you sure you want to logout?", comment: ""), preferredStyle:.alert)
@@ -107,6 +120,25 @@ extension ProfileVC{
         }) { (error) in
         }
     }
+    func wscallRemoveAccount(){
+       self.showSpinner()
+       WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.removeAccount, method: .get, param: [:], headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (repsonse, statuscode) in
+           print(repsonse)
+           self.hideSpinner()
+           let verifyOtpVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: VerifyOtpVC.self)) as! VerifyOtpVC
+           verifyOtpVC.isComingFromRemoveAccount = true
+           self.navigationController?.pushViewController(verifyOtpVC, animated: true)
+           
+       }, erroHandler: { (response, statuscode) in
+           print("Error\(response)")
+           self.hideSpinner()
+           
+           
+       }) { (error) in
+           self.hideSpinner()
+           print("Error\(error)")
+       }
+   }
     private func wsCallLogOut(){
         self.showSpinner()
         WSCalls.sharedInstance.apiCallWithHeader(url: WSRequest.logout, method: .post, param: [:], headers:["Authorization":userInfo?.api_token ?? ""], successHandler: { (repsonse, statuscode) in

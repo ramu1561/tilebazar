@@ -63,6 +63,8 @@ struct WSRequest{
     static let userViewCount = "\(kBaseurl)user-view-count"
     static let storeProduct = "\(kBaseurl)store-product"
     static let compareProducts = "\(kBaseurl)compare-products"
+    static let removeAccount = "\(kBaseurl)remove-account"
+    static let verifyRemoveAccount = "\(kBaseurl)verify-remove-account"
 }
 
 //MARK:- API Error Messages
