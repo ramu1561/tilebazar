@@ -10,9 +10,9 @@ import Toast_Swift
 
 class ParentVC: UIViewController {
     
-    var contact_number = "+918866270586"
-    
+    var contact_number = "+919108093080"
     var indicator = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator()
@@ -137,6 +137,14 @@ class ParentVC: UIViewController {
         }
         else{
             self.showToast(title: "Please select at least 2 products to compare")
+        }
+    }
+}
+extension UIViewController {
+    func setStatusBarStyle(_ style: UIStatusBarStyle) {
+        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+            statusBar.backgroundColor = style == .lightContent ? UIColor.black : .white
+            statusBar.setValue(style == .lightContent ? UIColor.white : .black, forKey: "foregroundColor")
         }
     }
 }

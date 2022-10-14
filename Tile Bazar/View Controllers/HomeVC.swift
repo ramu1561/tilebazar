@@ -43,6 +43,32 @@ class CellHomeProductsFooter:UITableViewCell{
 class CollectionCellHomeBanners:UICollectionViewCell{
     @IBOutlet weak var imgView: UIImageView!
 }
+//MARK:- NewSlidersDataModel
+class NewSlidersDataModel{
+    var file_name : String?
+    var product_id : String?
+    var seller_id : String?
+    
+    init(dictinfo : [String : Any]) {
+        file_name = dictinfo["file_name"] as? String ?? ""
+        if let item = dictinfo["product_id"]{
+            if item is String{
+                product_id = item as? String
+            }
+            else if item is Int{
+                product_id = String(item as! Int)
+            }
+        }
+        if let item = dictinfo["seller_id"]{
+            if item is String{
+                seller_id = item as? String
+            }
+            else if item is Int{
+                seller_id = String(item as! Int)
+            }
+        }
+    }
+}
 //MARK:- GetDashboardProductsDataModel
 class GetDashboardProductsDataModel {
     var id : String?
@@ -331,7 +357,7 @@ class HomeVC: ParentVC {
     @IBOutlet weak var tblViewProducts: UITableView!
     @IBOutlet weak var tblViewProductsHeight: NSLayoutConstraint!
     var countOfLogoutErrorMsgs : Int = 0
-    var arrSliders:[String] = []
+    //var arrSliders:[String] = []
     var is_paid = ""
     var view_count = ""
     var total_view_count = ""
@@ -341,6 +367,7 @@ class HomeVC: ParentVC {
     var arrFeaturedProducts:[GetDashboardProductsDataModel] = []
     var arrRecentlyAddedProducts:[GetDashboardProductsDataModel] = []
     var arrFirstChoiceProducts:[GetDashboardProductsDataModel] = []
+    var arrNewSliders:[NewSlidersDataModel] = []
     var refreshcontrol : UIRefreshControl!
     var plan_id = ""
     var plan_days = ""
@@ -1010,23 +1037,43 @@ extension HomeVC : UICollectionViewDelegate,UICollectionViewDataSource,UICollect
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrSliders.count
+        return arrNewSliders.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCellHomeBanners", for: indexPath) as? CollectionCellHomeBanners else{
             return UICollectionViewCell()
         }
-        cell.imgView.sd_setImage(with:URL(string:arrSliders[indexPath.item]), completed: { (image, error, SDImageCacheTypeDisk, url) in
+        cell.imgView.sd_setImage(with:URL(string:arrNewSliders[indexPath.item].file_name ?? ""), completed: { (image, error, SDImageCacheTypeDisk, url) in
         })
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionViewBanner.frame.size.width, height: 120)
+        if DeviceType.IS_IPAD{
+            return CGSize(width: collectionViewBanner.frame.size.width, height: 500)
+        }
+        else{
+            return CGSize(width: collectionViewBanner.frame.size.width, height: 120)
+        }
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView == collectionViewBanner{
             self.pageIndex = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
             pageControl.currentPage = self.pageIndex
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (Int(arrNewSliders[indexPath.item].product_id ?? "") ?? 0) > 0{
+            let productDetailsVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ProductDetailsVC.self)) as! ProductDetailsVC
+            productDetailsVC.product_id = arrNewSliders[indexPath.item].product_id ?? ""
+            self.navigationController?.pushViewController(productDetailsVC, animated: true)
+        }
+        else if (Int(arrNewSliders[indexPath.item].seller_id ?? "") ?? 0) > 0{
+            let sellerDetailsVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: SellerDetailsVC.self)) as! SellerDetailsVC
+            sellerDetailsVC.user_id = arrNewSliders[indexPath.item].seller_id ?? ""
+            self.navigationController?.pushViewController(sellerDetailsVC, animated: true)
+        }
+        else{
+            
         }
     }
 }
@@ -1039,7 +1086,8 @@ extension HomeVC{
             print(response)
             self.hideSpinner()
             self.refreshcontrol.endRefreshing()
-            self.arrSliders.removeAll()
+            //self.arrSliders.removeAll()
+            self.arrNewSliders.removeAll()
             self.arrFeaturedProducts.removeAll()
             self.arrRecentlyAddedProducts.removeAll()
             self.arrFirstChoiceProducts.removeAll()
@@ -1118,6 +1166,14 @@ extension HomeVC{
                 }
             }
             
+            let arrSliders = response["newSliders"] as? [[String:Any]] ?? []
+            if arrSliders.count > 0{
+                for obj in arrSliders{
+                    let obj = NewSlidersDataModel(dictinfo: obj)
+                    self.arrNewSliders.append(obj)
+                }
+            }
+            
             let arrFeatured = response["featured"] as? [[String:Any]] ?? []
             if arrFeatured.count > 0{
                 for obj in arrFeatured{
@@ -1140,12 +1196,18 @@ extension HomeVC{
                 }
             }
             
-            self.arrSliders = response["sliders"] as? [String] ?? []
-            self.pageControl.numberOfPages = self.arrSliders.count
+            //self.arrSliders = response["sliders"] as? [String] ?? []
+            self.pageControl.numberOfPages = self.arrNewSliders.count
             self.collectionViewBanner.reloadData()
-            if self.arrSliders.count > 0{
+            if self.arrNewSliders.count > 0{
                 self.viewCollectionBannerContainer.isHidden = false
-                self.viewCollectionBannerContainerHeight.constant = 120
+                
+                if DeviceType.IS_IPAD{
+                    self.viewCollectionBannerContainerHeight.constant = 500
+                }
+                else{
+                    self.viewCollectionBannerContainerHeight.constant = 120
+                }
             }
             else{
                 self.viewCollectionBannerContainer.isHidden = true

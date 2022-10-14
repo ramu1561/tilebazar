@@ -75,11 +75,12 @@ class MembershipVC: ParentVC {
     
     @IBOutlet weak var lblParaOne: UILabel!
     @IBOutlet weak var lblParaTwo: UILabel!
-    
     @IBOutlet weak var lblMembershipExpiry: UILabel!
+    @IBOutlet weak var lblContactHere: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.lblContactHere.text = self.contact_number
         collectionView.dataSource = self
         collectionView.delegate = self
         viewContainer.clipsToBounds = true

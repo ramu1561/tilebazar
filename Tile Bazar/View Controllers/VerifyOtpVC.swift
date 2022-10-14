@@ -147,7 +147,7 @@ extension VerifyOtpVC{
        }, erroHandler: { (response, statuscode) in
            print("Error\(response)")
            self.hideSpinner()
-           
+           self.showAlert(msg: response["Message"] as? String ?? "")
            
        }) { (error) in
            self.hideSpinner()
@@ -179,7 +179,7 @@ extension VerifyOtpVC{
        }, erroHandler: { (response, statuscode) in
            print("Error\(response)")
            self.hideSpinner()
-           
+           self.showAlert(msg: response["Message"] as? String ?? "")
            
        }) { (error) in
            self.hideSpinner()

@@ -9359,6 +9359,7 @@
                         <outlet property="CellData" destination="JSf-fh-Zsu" id="z9q-sx-w7I"/>
                         <outlet property="collectionView" destination="v9B-zv-jBO" id="68a-pZ-9Px"/>
                         <outlet property="collectionViewHeight" destination="ID8-YG-wrZ" id="egr-vL-CnQ"/>
+                        <outlet property="lblContactHere" destination="SFm-AP-Miz" id="jAp-Vc-nWt"/>
                         <outlet property="lblMembershipExpiry" destination="vfE-SF-yC2" id="bhe-un-LyI"/>
                         <outlet property="lblParaOne" destination="54k-XI-bhD" id="38A-3X-1gP"/>
                         <outlet property="lblParaTwo" destination="yDd-6o-yis" id="SZy-Z5-8Yy"/>
@@ -9488,7 +9489,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+91 8866270586" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SFm-AP-Miz">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+919108093080" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SFm-AP-Miz">
                                         <rect key="frame" x="20" y="388.33333333333337" width="374" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="TaY-W4-O6R"/>
