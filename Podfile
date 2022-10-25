@@ -10,5 +10,6 @@ target 'Tile Bazar' do
   pod 'Toast-Swift', '~> 4.0.0'
   pod 'FirebaseCore'
   pod 'FirebaseDynamicLinks'
+  pod 'Firebase/Messaging'
   
 end

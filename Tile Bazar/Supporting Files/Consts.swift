@@ -65,6 +65,7 @@ struct WSRequest{
     static let compareProducts = "\(kBaseurl)compare-products"
     static let removeAccount = "\(kBaseurl)remove-account"
     static let verifyRemoveAccount = "\(kBaseurl)verify-remove-account"
+    static let storeDeviceToken = "\(kBaseurl)store-device-token"
 }
 
 //MARK:- API Error Messages

@@ -65,7 +65,11 @@ class MenuVC: ParentVC,UIGestureRecognizerDelegate{
         }
         else if sender.tag == 2{
             //refer
-            let activityViewController = UIActivityViewController(activityItems: ["You can now download the Tile Bazar App on the AppStore. Get start today and reach millions of customers.","https://apps.apple.com/us/app/tile-bazar/id6443541980"], applicationActivities: nil)
+            //["You can now download the Tile Bazar App on the AppStore. Get start today and reach millions of customers.","https://apps.apple.com/us/app/tile-bazar/id6443541980"]
+            
+            let appStore = ["Are you into CERAMICS ?\nGet the best deals or offer your products at best.\nGet start today and reach millions of buyers and sellers.\n\niOS app:\nhttps://apps.apple.com/us/app/tile-bazar/id6443541980\n\nAndroid app:\nhttps://play.google.com/store/apps/details?id=com.app.tilesbazar\n\nDownload TILE BAZAR app and get lowest price guaranteed in any ceramic tile products"]
+            
+            let activityViewController = UIActivityViewController(activityItems: appStore, applicationActivities: nil)
             if let popoverController = activityViewController.popoverPresentationController {
                 popoverController.sourceView = self.view
                 popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)

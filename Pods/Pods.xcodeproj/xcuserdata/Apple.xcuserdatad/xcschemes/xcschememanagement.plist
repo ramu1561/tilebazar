@@ -32,6 +32,13 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>Firebase.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>19</integer>
+		</dict>
 		<key>FirebaseAnalyticsInterop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -66,6 +73,27 @@
 			<false/>
 			<key>orderHint</key>
 			<integer>8</integer>
+		</dict>
+		<key>FirebaseInstallations.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>20</integer>
+		</dict>
+		<key>FirebaseInstanceID.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>21</integer>
+		</dict>
+		<key>FirebaseMessaging.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>22</integer>
 		</dict>
 		<key>GoogleDataTransport.xcscheme</key>
 		<dict>
@@ -108,6 +136,13 @@
 			<false/>
 			<key>orderHint</key>
 			<integer>15</integer>
+		</dict>
+		<key>Protobuf.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>23</integer>
 		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
