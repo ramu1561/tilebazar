@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseDynamicLinks
+import FirebaseCore
 
 class SeeAllProductsVC: ParentVC {
 
@@ -130,7 +131,9 @@ class SeeAllProductsVC: ParentVC {
         guard let link = URL(string:"https://tilesbazar.page.link/productdetails/\(product_id)") else { return }
         let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix:"https://tilesbazar.page.link")
         linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID:"com.app.Tile-Bazar")
+        linkBuilder?.iOSParameters?.appStoreID = "6443541980"
         linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.app.tilesbazar")
+        
         guard let longDynamicLink = linkBuilder?.url else { return }
        
         DynamicLinkComponents.shortenURL(longDynamicLink, options: nil) { url, warnings, error in

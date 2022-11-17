@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1803123B29079F5B00171DAA /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803123A29079F5B00171DAA /* NotificationService.swift */; };
+		1803123F29079F5B00171DAA /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1803123829079F5B00171DAA /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		18050B6E28BCC3A800480777 /* ViewContactAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18050B6D28BCC3A800480777 /* ViewContactAlertVC.swift */; };
 		1806213B28BF4E9600B9F82C /* AddProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1806213A28BF4E9600B9F82C /* AddProductVC.swift */; };
 		1820A83C28AA14EB008932D6 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1820A83B28AA14EB008932D6 /* CategoriesVC.swift */; };
@@ -84,6 +86,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1803123D29079F5B00171DAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 184E800F28A617360067EE50 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1803123729079F5B00171DAA;
+			remoteInfo = NotificationService;
+		};
 		184E802E28A6173E0067EE50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 184E800F28A617360067EE50 /* Project object */;
@@ -100,7 +109,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1803124029079F5B00171DAA /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1803123F29079F5B00171DAA /* NotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		1803123829079F5B00171DAA /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1803123A29079F5B00171DAA /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		1803123C29079F5B00171DAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		18050B6D28BCC3A800480777 /* ViewContactAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewContactAlertVC.swift; sourceTree = "<group>"; };
 		1806213A28BF4E9600B9F82C /* AddProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProductVC.swift; sourceTree = "<group>"; };
 		1820A83B28AA14EB008932D6 /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
@@ -197,6 +223,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1803123529079F5B00171DAA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		184E801428A617360067EE50 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,12 +255,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1803123929079F5B00171DAA /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				1803123A29079F5B00171DAA /* NotificationService.swift */,
+				1803123C29079F5B00171DAA /* Info.plist */,
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
 		184E800E28A617360067EE50 = {
 			isa = PBXGroup;
 			children = (
 				184E801928A617360067EE50 /* Tile Bazar */,
 				184E803028A6173E0067EE50 /* Tile BazarTests */,
 				184E803A28A6173E0067EE50 /* Tile BazarUITests */,
+				1803123929079F5B00171DAA /* NotificationService */,
 				184E801828A617360067EE50 /* Products */,
 				52915A3451747C6290061D96 /* Pods */,
 				3C00004E0FDD617EECF33E41 /* Frameworks */,
@@ -240,6 +283,7 @@
 				184E801728A617360067EE50 /* Tile Bazar.app */,
 				184E802D28A6173E0067EE50 /* Tile BazarTests.xctest */,
 				184E803728A6173E0067EE50 /* Tile BazarUITests.xctest */,
+				1803123829079F5B00171DAA /* NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -468,6 +512,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1803123729079F5B00171DAA /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1803124329079F5B00171DAA /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				1803123429079F5B00171DAA /* Sources */,
+				1803123529079F5B00171DAA /* Frameworks */,
+				1803123629079F5B00171DAA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = 1803123829079F5B00171DAA /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		184E801628A617360067EE50 /* Tile Bazar */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 184E804128A6173E0067EE50 /* Build configuration list for PBXNativeTarget "Tile Bazar" */;
@@ -477,10 +538,12 @@
 				184E801428A617360067EE50 /* Frameworks */,
 				184E801528A617360067EE50 /* Resources */,
 				4EC872D2B7A9110A9AFAEFBB /* [CP] Embed Pods Frameworks */,
+				1803124029079F5B00171DAA /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1803123E29079F5B00171DAA /* PBXTargetDependency */,
 			);
 			name = "Tile Bazar";
 			packageProductDependencies = (
@@ -535,6 +598,9 @@
 				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					1803123729079F5B00171DAA = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					184E801628A617360067EE50 = {
 						CreatedOnToolsVersion = 13.2.1;
 						LastSwiftMigration = 1320;
@@ -567,11 +633,19 @@
 				184E801628A617360067EE50 /* Tile Bazar */,
 				184E802C28A6173E0067EE50 /* Tile BazarTests */,
 				184E803628A6173E0067EE50 /* Tile BazarUITests */,
+				1803123729079F5B00171DAA /* NotificationService */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1803123629079F5B00171DAA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		184E801528A617360067EE50 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -658,6 +732,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1803123429079F5B00171DAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1803123B29079F5B00171DAA /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		184E801328A617360067EE50 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -735,6 +817,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1803123E29079F5B00171DAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1803123729079F5B00171DAA /* NotificationService */;
+			targetProxy = 1803123D29079F5B00171DAA /* PBXContainerItemProxy */;
+		};
 		184E802F28A6173E0067EE50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 184E801628A617360067EE50 /* Tile Bazar */;
@@ -767,6 +854,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1803124129079F5B00171DAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C9B8Z8ZZKH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar.NotificationService";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1803124229079F5B00171DAA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = C9B8Z8ZZKH;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar.NotificationService";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		184E803F28A6173E0067EE50 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -887,6 +1028,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D5F9E0B6523FDE187ED61AF7 /* Pods-Tile Bazar.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -912,7 +1054,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -928,6 +1070,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E3FB81DCBA502B05A6BEA0F2 /* Pods-Tile Bazar.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
@@ -953,7 +1096,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1043,6 +1186,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1803124329079F5B00171DAA /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1803124129079F5B00171DAA /* Debug */,
+				1803124229079F5B00171DAA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		184E801228A617360067EE50 /* Build configuration list for PBXProject "Tile Bazar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

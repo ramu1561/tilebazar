@@ -34,8 +34,6 @@ class TBTabbar: UITabBarController{
                 UIGraphicsEndImageContext()
                 tabBar.backgroundImage = resizeImage?.withRenderingMode(.alwaysOriginal)
             }
-            
         }
-        
     }
 }
