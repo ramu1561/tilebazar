@@ -102,22 +102,6 @@ class MembershipVC: ParentVC {
         else{
             lblMembershipExpiry.text = ""
         }
-        
-        let paraOne = "• 18 times free contact to sellers (As a Buyer)"
-        let string_to_colorOne = "(As a Buyer)"
-        
-        let rangeOne = (paraOne as NSString).range(of: string_to_colorOne)
-        let attributeOne = NSMutableAttributedString.init(string: paraOne)
-        attributeOne.addAttribute(NSAttributedString.Key.foregroundColor, value:UIColor.init(hexString: "#c0252b"), range: rangeOne)
-        lblParaOne.attributedText = attributeOne
-        
-        let paraTwo = "• Post a product for free 12 times (As a Seller)"
-        let string_to_colorTwo = "(As a Seller)"
-        let rangeTwo = (paraTwo as NSString).range(of: string_to_colorTwo)
-        let attributeTwo = NSMutableAttributedString.init(string: paraTwo)
-        attributeTwo.addAttribute(NSAttributedString.Key.foregroundColor, value:UIColor.init(hexString: "#c0252b"), range: rangeTwo)
-        lblParaTwo.attributedText = attributeTwo
-        
         wsCallGetPaymentPlans()
         // Do any additional setup after loading the view.
     }

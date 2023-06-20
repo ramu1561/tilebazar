@@ -156,9 +156,16 @@ class SellerDetailsVC: ParentVC {
             }
         }
         else{
-            //free user
-            let view_count = Int(HomeVC.sharedInstance?.view_count ?? "") ?? 0
             
+            //free user
+            
+            let subscriptionAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: SubscriptionAlertVC.self)) as! SubscriptionAlertVC
+            subscriptionAlertVC.isComingFromAddProduct = false
+            subscriptionAlertVC.whichScreen = "SellerDetailsVC"
+            self.present(subscriptionAlertVC, animated: true, completion: nil)
+            
+            /*
+            let view_count = Int(HomeVC.sharedInstance?.view_count ?? "") ?? 0
             if view_count > 0{
                 let viewContactAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ViewContactAlertVC.self)) as! ViewContactAlertVC
                 viewContactAlertVC.isComingFromAddProduct = false
@@ -181,6 +188,7 @@ class SellerDetailsVC: ParentVC {
                 subscriptionAlertVC.whichScreen = "SellerDetailsVC"
                 self.present(subscriptionAlertVC, animated: true, completion: nil)
             }
+            */
         }
     }
     @IBAction func toggleButtons(_ sender: UIButton) {

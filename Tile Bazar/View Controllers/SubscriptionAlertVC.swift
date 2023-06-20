@@ -10,7 +10,6 @@ import UIKit
 class SubscriptionAlertVC: ParentVC {
 
     @IBOutlet weak var lblMonthlyViewCount: UILabel!
-    @IBOutlet weak var lblTotalFreeCount: UILabel!
     @IBOutlet weak var lblUnlimited: UILabel!
     var isComingFromAddProduct = false
     let total_view_count = Int(HomeVC.sharedInstance?.total_view_count ?? "") ?? 0
@@ -19,6 +18,7 @@ class SubscriptionAlertVC: ParentVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*
         if isComingFromAddProduct{
             lblUnlimited.text = "For unlimited free post subscribe our premium membership plan"
             if total_free_product > 0{
@@ -41,6 +41,7 @@ class SubscriptionAlertVC: ParentVC {
                 lblTotalFreeCount.text = ""
             }
         }
+        */
         // Do any additional setup after loading the view.
     }
     @IBAction func toggleButtons(_ sender: UIButton) {

@@ -133,6 +133,10 @@ class AddProductVC: ParentVC,UITextViewDelegate{
                 callAddProductApi()
             }
             else{
+                let subscriptionAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: SubscriptionAlertVC.self)) as! SubscriptionAlertVC
+                subscriptionAlertVC.isComingFromAddProduct = true
+                self.present(subscriptionAlertVC, animated: true, completion: nil)
+                /*
                 let free_product = Int(HomeVC.sharedInstance?.free_product ?? "") ?? 0
                 if free_product > 0{
                     let viewContactAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ViewContactAlertVC.self)) as! ViewContactAlertVC
@@ -145,6 +149,7 @@ class AddProductVC: ParentVC,UITextViewDelegate{
                     subscriptionAlertVC.isComingFromAddProduct = true
                     self.present(subscriptionAlertVC, animated: true, completion: nil)
                 }
+                */
             }
         }
     }

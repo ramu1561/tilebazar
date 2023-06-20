@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseDynamicLinks
+import Siren
 
 class CellHomeProductsHeader:UITableViewCell{
     @IBOutlet weak var lblTitle: UILabel!
@@ -380,6 +381,7 @@ class HomeVC: ParentVC {
     @IBOutlet weak var viewNoData: UIView!
     var timer : Timer?
     var pageIndex : Int = 0
+    var support_number = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -418,6 +420,8 @@ class HomeVC: ParentVC {
         self.navigationController?.pushViewController(seeAllProductsVC, animated: true)
     }
     override func viewWillAppear(_ animated: Bool) {
+        Siren.shared.checkVersion(checkType: .immediately)
+        Siren.shared.alertType = .force
         arrayCompareProductIDs = UserDefaults.standard.stringArray(forKey: "arrayCompareProductIDs") ?? [String]()
         checkCompareProducts()
         arrayWatchlistProductIDs = UserDefaults.standard.stringArray(forKey: "arrayWatchlistProductIDs") ?? [String]()
@@ -1196,7 +1200,7 @@ extension HomeVC{
                     self.arrFirstChoiceProducts.append(obj)
                 }
             }
-            
+            self.support_number = response["support_number"] as? String ?? ""
             //self.arrSliders = response["sliders"] as? [String] ?? []
             self.pageControl.numberOfPages = self.arrNewSliders.count
             self.collectionViewBanner.reloadData()

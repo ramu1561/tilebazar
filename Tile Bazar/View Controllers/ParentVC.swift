@@ -10,7 +10,7 @@ import Toast_Swift
 
 class ParentVC: UIViewController {
     
-    var contact_number = "+919108093080"
+    var contact_number = "+91 \(HomeVC.sharedInstance?.support_number ?? "")"
     var indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
