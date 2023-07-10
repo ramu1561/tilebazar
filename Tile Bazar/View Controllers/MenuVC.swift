@@ -24,16 +24,23 @@ class MenuVC: ParentVC,UIGestureRecognizerDelegate{
         tap.delegate = self
         self.view.addGestureRecognizer(tap)
         
-        self.lblName.text = "\(UserDefaults.standard.string(forKey: "user_name") ?? userInfo?.name ?? "")"
-        self.lblCompanyName.text = "\(UserDefaults.standard.string(forKey: "user_company_name") ?? userInfo?.company_name ?? "")"
-        guard let url = URL(string: UserDefaults.standard.string(forKey: "user_image") ?? userInfo?.image ?? "") else{
-            return
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            self.lblName.text = "\(UserDefaults.standard.string(forKey: "user_name") ?? userInfo?.name ?? "")"
+            self.lblCompanyName.text = "\(UserDefaults.standard.string(forKey: "user_company_name") ?? userInfo?.company_name ?? "")"
+            guard let url = URL(string: UserDefaults.standard.string(forKey: "user_image") ?? userInfo?.image ?? "") else{
+                return
+            }
+            self.imgUser.sd_setImage(with:url,
+                                 placeholderImage:UIImage(named: "profile-user"),
+                                 options: SDWebImageOptions(rawValue: 0),
+                                 completed: { (image, error, cacheType, imageUrl) in
+            })
         }
-        self.imgUser.sd_setImage(with:url,
-                             placeholderImage:UIImage(named: "profile-user"),
-                             options: SDWebImageOptions(rawValue: 0),
-                             completed: { (image, error, cacheType, imageUrl) in
-        })
+        else{
+            self.lblName.text = "Guest User"
+            self.lblCompanyName.text = ""
+            self.imgUser.image = UIImage(named: "profile-user")
+        }
         // Do any additional setup after loading the view.
     }
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool{
@@ -55,8 +62,14 @@ class MenuVC: ParentVC,UIGestureRecognizerDelegate{
     @IBAction func toggleMenuButtons(_ sender: UIButton) {
         if sender.tag == 0{
             //profile tab
-            tabBarController?.selectedIndex = 4
-            hideMenuWithAnimation()
+            if let info = Helper.getDatafromUserDefault("UserInformation"){
+                tabBarController?.selectedIndex = 4
+                hideMenuWithAnimation()
+            }
+            else{
+                self.showLoginScreen()
+                hideMenuWithAnimation()
+            }
         }
         else if sender.tag == 1{
             //home tab
@@ -90,11 +103,16 @@ class MenuVC: ParentVC,UIGestureRecognizerDelegate{
             self.navigationController?.pushViewController(tBWebVC, animated: true)
             hideMenuWithAnimation()
         }
-        else{
+        else if sender.tag == 5{
             //about us
             let tBWebVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: TBWebVC.self)) as! TBWebVC
             tBWebVC.isComingFrom = "about"
             self.navigationController?.pushViewController(tBWebVC, animated: true)
+            hideMenuWithAnimation()
+        }
+        else{
+            //membership
+            self.showSubsciptionScreen()
             hideMenuWithAnimation()
         }
     }

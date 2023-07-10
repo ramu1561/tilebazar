@@ -97,7 +97,12 @@ class MyProductsVC: ParentVC {
         }
     }
     @IBAction func toggleSellProduct(_ sender: Any) {
-        self.showAddProductScreen()
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            self.showAddProductScreen()
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
     }
 }
 extension MyProductsVC:UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate{

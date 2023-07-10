@@ -83,6 +83,7 @@
 		18FDAFAD28B7B6EE00B7750C /* ProductDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDAFAC28B7B6EE00B7750C /* ProductDetailsVC.swift */; };
 		18FDE32828B11EE5007DEB03 /* SelectStateVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FDE32728B11EE5007DEB03 /* SelectStateVC.swift */; };
 		6133C506767396B2C6A821DA /* Pods_Tile_Bazar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A786B3359ADFB4D8185589A7 /* Pods_Tile_Bazar.framework */; };
+		7088B6152A58047500AF8B03 /* LoginAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7088B6142A58047500AF8B03 /* LoginAlertVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +218,7 @@
 		18FC80F628B39B1B0061CD8E /* ReportPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPostVC.swift; sourceTree = "<group>"; };
 		18FDAFAC28B7B6EE00B7750C /* ProductDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsVC.swift; sourceTree = "<group>"; };
 		18FDE32728B11EE5007DEB03 /* SelectStateVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectStateVC.swift; sourceTree = "<group>"; };
+		7088B6142A58047500AF8B03 /* LoginAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAlertVC.swift; sourceTree = "<group>"; };
 		A786B3359ADFB4D8185589A7 /* Pods_Tile_Bazar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tile_Bazar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5F9E0B6523FDE187ED61AF7 /* Pods-Tile Bazar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tile Bazar.debug.xcconfig"; path = "Target Support Files/Pods-Tile Bazar/Pods-Tile Bazar.debug.xcconfig"; sourceTree = "<group>"; };
 		E3FB81DCBA502B05A6BEA0F2 /* Pods-Tile Bazar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tile Bazar.release.xcconfig"; path = "Target Support Files/Pods-Tile Bazar/Pods-Tile Bazar.release.xcconfig"; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 				18F32ACE28BE32C500F4EAD7 /* InitialSlidersVC.swift */,
 				1806213A28BF4E9600B9F82C /* AddProductVC.swift */,
 				18EBF4ED28C7785500F91A90 /* CompareProductsVC.swift */,
+				7088B6142A58047500AF8B03 /* LoginAlertVC.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				187276DD28AA6B5B008202CA /* WSCalls.swift in Sources */,
 				18BFAA2128A8F7DB0018FB4A /* ProductsVC.swift in Sources */,
 				1820A83C28AA14EB008932D6 /* CategoriesVC.swift in Sources */,
+				7088B6152A58047500AF8B03 /* LoginAlertVC.swift in Sources */,
 				18DC32A128A77904003DBBC8 /* TBParentVC.swift in Sources */,
 				183AACFC28B734E400A0CE75 /* MyProductsVC.swift in Sources */,
 				18C4B04F28A81CD400CFDAE1 /* SeeAllProductsVC.swift in Sources */,
@@ -1055,7 +1059,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1098,7 +1102,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.app.Tile-Bazar";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

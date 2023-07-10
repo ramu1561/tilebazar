@@ -31,7 +31,7 @@ class VerifyOtpVC: TBParentVC {
             self.tabBarController?.tabBar.isHidden = false
         }
         else{
-            self.tabBarController?.tabBar.isHidden = true
+            self.tabBarController?.tabBar.isHidden = false
         }
     }
     func checkValidation() -> Bool{

@@ -7,10 +7,11 @@
 
 import UIKit
 
-class TBTabbar: UITabBarController{
+class TBTabbar: UITabBarController,UITabBarControllerDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.delegate = self
         if #available(iOS 13.0, *) {
             let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithDefaultBackground()
@@ -35,5 +36,28 @@ class TBTabbar: UITabBarController{
                 tabBar.backgroundImage = resizeImage?.withRenderingMode(.alwaysOriginal)
             }
         }
+        
+    }
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            return true
+        }
+        else{
+            if viewController == tabBarController.viewControllers?[3] || viewController == tabBarController.viewControllers?[4]{
+                let LoginAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: LoginAlertVC.self)) as! LoginAlertVC
+                LoginAlertVC.showLoginDelegate = self
+                self.present(LoginAlertVC, animated: true, completion: nil)
+                return false
+            }
+            else{
+                return true
+            }
+        }
+    }
+}
+extension TBTabbar:ShowLoginDelegate{
+    func showLogin() {
+        let loginVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: LoginVC.self)) as! LoginVC
+        self.navigationController?.pushViewController(loginVC, animated: true)
     }
 }

@@ -33,7 +33,12 @@ class LoginVC: TBParentVC {
         tfPhoneNumber.delegate = self
         // Do any additional setup after loading the view.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
     @IBAction func toggleLoginButtons(_ sender: UIButton) {
         if sender.tag == 1{
             //login
@@ -53,8 +58,11 @@ class LoginVC: TBParentVC {
                 self.navigationController?.popViewController(animated: true)
             }
             else{
+                self.navigationController?.popViewController(animated: true)
+            /*
             UIControl().sendAction(#selector(NSXPCConnection.suspend),
                                    to: UIApplication.shared, for: nil)
+             */
             }
         }
     }

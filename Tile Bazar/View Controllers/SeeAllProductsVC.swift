@@ -98,22 +98,33 @@ class SeeAllProductsVC: ParentVC {
     }
     //MARK: Button Actions
     @IBAction func toggleReportPost(_ sender: UIButton) {
-        let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
-        reportPostVC.isSellerReport = false
-        reportPostVC.product_id = self.arrSeeAllProducts[sender.tag].id ?? ""
-        self.present(reportPostVC, animated: true, completion: nil)
-    }
-    @IBAction func toggleWatchlist(_ sender: UIButton) {
-        if (self.arrSeeAllProducts[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSeeAllProducts[sender.tag].id ?? ""){
-            arrayWatchlistProductIDs.removeElement(element:self.arrSeeAllProducts[sender.tag].id ?? "")
-            wsCallRemoveProductFromWatchlist(product_id: self.arrSeeAllProducts[sender.tag].id ?? "")
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
+            reportPostVC.isSellerReport = false
+            reportPostVC.product_id = self.arrSeeAllProducts[sender.tag].id ?? ""
+            self.present(reportPostVC, animated: true, completion: nil)
         }
         else{
-            arrayWatchlistProductIDs.append(self.arrSeeAllProducts[sender.tag].id ?? "")
-            self.wsCallAddProductToWatchlist(product_id: self.arrSeeAllProducts[sender.tag].id ?? "")
+            self.showLoginAlertPopUp()
         }
-        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
-        self.tblView.reloadData()
+    }
+    @IBAction func toggleWatchlist(_ sender: UIButton) {
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            if (self.arrSeeAllProducts[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSeeAllProducts[sender.tag].id ?? ""){
+                arrayWatchlistProductIDs.removeElement(element:self.arrSeeAllProducts[sender.tag].id ?? "")
+                wsCallRemoveProductFromWatchlist(product_id: self.arrSeeAllProducts[sender.tag].id ?? "")
+            }
+            else{
+                arrayWatchlistProductIDs.append(self.arrSeeAllProducts[sender.tag].id ?? "")
+                self.wsCallAddProductToWatchlist(product_id: self.arrSeeAllProducts[sender.tag].id ?? "")
+            }
+            UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+            self.tblView.reloadData()
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
+        
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         if arrayCompareProductIDs.contains(self.arrSeeAllProducts[sender.tag].id ?? ""){

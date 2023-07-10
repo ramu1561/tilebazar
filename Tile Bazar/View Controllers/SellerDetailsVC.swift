@@ -92,22 +92,32 @@ class SellerDetailsVC: ParentVC {
     }
     //MARK: Button Actions
     @IBAction func toggleReportPost(_ sender: UIButton) {
-        let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
-        reportPostVC.isSellerReport = false
-        reportPostVC.product_id = self.arrSellerProducts[sender.tag].id ?? ""
-        self.present(reportPostVC, animated: true, completion: nil)
-    }
-    @IBAction func toggleWatchlist(_ sender: UIButton) {
-        if (self.arrSellerProducts[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSellerProducts[sender.tag].id ?? ""){
-            arrayWatchlistProductIDs.removeElement(element:self.arrSellerProducts[sender.tag].id ?? "")
-            wsCallRemoveProductFromWatchlist(product_id: self.arrSellerProducts[sender.tag].id ?? "")
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
+            reportPostVC.isSellerReport = false
+            reportPostVC.product_id = self.arrSellerProducts[sender.tag].id ?? ""
+            self.present(reportPostVC, animated: true, completion: nil)
         }
         else{
-            arrayWatchlistProductIDs.append(self.arrSellerProducts[sender.tag].id ?? "")
-            self.wsCallAddProductToWatchlist(product_id: self.arrSellerProducts[sender.tag].id ?? "")
+            self.showLoginAlertPopUp()
         }
-        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
-        self.tblView.reloadData()
+    }
+    @IBAction func toggleWatchlist(_ sender: UIButton) {
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            if (self.arrSellerProducts[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrSellerProducts[sender.tag].id ?? ""){
+                arrayWatchlistProductIDs.removeElement(element:self.arrSellerProducts[sender.tag].id ?? "")
+                wsCallRemoveProductFromWatchlist(product_id: self.arrSellerProducts[sender.tag].id ?? "")
+            }
+            else{
+                arrayWatchlistProductIDs.append(self.arrSellerProducts[sender.tag].id ?? "")
+                self.wsCallAddProductToWatchlist(product_id: self.arrSellerProducts[sender.tag].id ?? "")
+            }
+            UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+            self.tblView.reloadData()
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         if arrayCompareProductIDs.contains(self.arrSellerProducts[sender.tag].id ?? ""){
@@ -144,72 +154,81 @@ class SellerDetailsVC: ParentVC {
     @IBAction func toggleContactButtons(_ sender: UIButton) {
         //here check for subscription plan and show subscribe
         //is_paid = "2"
-        if is_paid == "2"{
-            //premium
-            if sender.tag == 1{
-                //whatsapp
-                self.openWhatsapp(phoneNumber: self.phone_number)
-            }
-            else{
-                //call
-                self.makeAPhoneCall(phoneNumber: self.phone_number)
-            }
-        }
-        else{
-            
-            //free user
-            
-            let subscriptionAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: SubscriptionAlertVC.self)) as! SubscriptionAlertVC
-            subscriptionAlertVC.isComingFromAddProduct = false
-            subscriptionAlertVC.whichScreen = "SellerDetailsVC"
-            self.present(subscriptionAlertVC, animated: true, completion: nil)
-            
-            /*
-            let view_count = Int(HomeVC.sharedInstance?.view_count ?? "") ?? 0
-            if view_count > 0{
-                let viewContactAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ViewContactAlertVC.self)) as! ViewContactAlertVC
-                viewContactAlertVC.isComingFromAddProduct = false
-                viewContactAlertVC.phone_number = self.phone_number
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            if is_paid == "2"{
+                //premium
                 if sender.tag == 1{
                     //whatsapp
-                    viewContactAlertVC.isCallSelected = false
+                    self.openWhatsapp(phoneNumber: self.phone_number)
                 }
                 else{
                     //call
-                    viewContactAlertVC.isCallSelected = true
+                    self.makeAPhoneCall(phoneNumber: self.phone_number)
                 }
-                viewContactAlertVC.whichScreen = "SellerDetailsVC"
-                self.present(viewContactAlertVC, animated: true, completion: nil)
             }
             else{
-                //limit reached, so show subscribe screen
+                
+                //free user
+                
                 let subscriptionAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: SubscriptionAlertVC.self)) as! SubscriptionAlertVC
                 subscriptionAlertVC.isComingFromAddProduct = false
                 subscriptionAlertVC.whichScreen = "SellerDetailsVC"
                 self.present(subscriptionAlertVC, animated: true, completion: nil)
+                
+                /*
+                let view_count = Int(HomeVC.sharedInstance?.view_count ?? "") ?? 0
+                if view_count > 0{
+                    let viewContactAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ViewContactAlertVC.self)) as! ViewContactAlertVC
+                    viewContactAlertVC.isComingFromAddProduct = false
+                    viewContactAlertVC.phone_number = self.phone_number
+                    if sender.tag == 1{
+                        //whatsapp
+                        viewContactAlertVC.isCallSelected = false
+                    }
+                    else{
+                        //call
+                        viewContactAlertVC.isCallSelected = true
+                    }
+                    viewContactAlertVC.whichScreen = "SellerDetailsVC"
+                    self.present(viewContactAlertVC, animated: true, completion: nil)
+                }
+                else{
+                    //limit reached, so show subscribe screen
+                    let subscriptionAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: SubscriptionAlertVC.self)) as! SubscriptionAlertVC
+                    subscriptionAlertVC.isComingFromAddProduct = false
+                    subscriptionAlertVC.whichScreen = "SellerDetailsVC"
+                    self.present(subscriptionAlertVC, animated: true, completion: nil)
+                }
+                */
             }
-            */
+        }
+        else{
+            self.showLoginAlertPopUp()
         }
     }
     @IBAction func toggleButtons(_ sender: UIButton) {
         if sender.tag == 0{
             //watchlist
-            if self.is_favourite == "1" || arrayWatchlistSellerIDs.contains(self.user_id){
-                arrayWatchlistSellerIDs.removeElement(element:self.user_id)
-                wsCallRemoveDirectoryFromWatchlist(user_id: self.user_id)
-                self.is_favourite = "0"
-                self.imgWatchlistIcon.image = UIImage(named: "icon_add_watchlist")
-                self.lblWatchList.textColor = UIColor.darkGray
+            if let info = Helper.getDatafromUserDefault("UserInformation"){
+                if self.is_favourite == "1" || arrayWatchlistSellerIDs.contains(self.user_id){
+                    arrayWatchlistSellerIDs.removeElement(element:self.user_id)
+                    wsCallRemoveDirectoryFromWatchlist(user_id: self.user_id)
+                    self.is_favourite = "0"
+                    self.imgWatchlistIcon.image = UIImage(named: "icon_add_watchlist")
+                    self.lblWatchList.textColor = UIColor.darkGray
+                }
+                else{
+                    self.is_favourite = "1"
+                    self.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
+                    self.lblWatchList.textColor = UIColor(hexString: "#c0252b")
+                    arrayWatchlistSellerIDs.append(self.user_id)
+                    self.wsCallAddDirectoryToWatchlist(user_id: self.user_id)
+                }
+                UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
             }
             else{
-                self.is_favourite = "1"
-                self.imgWatchlistIcon.image = UIImage(named: "icon_remove_watchlist")
-                self.lblWatchList.textColor = UIColor(hexString: "#c0252b")
-                arrayWatchlistSellerIDs.append(self.user_id)
-                self.wsCallAddDirectoryToWatchlist(user_id: self.user_id)
+                self.showLoginAlertPopUp()
             }
-            UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
-            
         }
         else if sender.tag == 1{
             //share
@@ -234,10 +253,15 @@ class SellerDetailsVC: ParentVC {
         }
         else{
             //report
-            let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
-            reportPostVC.isSellerReport = true
-            reportPostVC.user_id = self.user_id
-            self.present(reportPostVC, animated: true, completion: nil)
+            if let info = Helper.getDatafromUserDefault("UserInformation"){
+                let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
+                reportPostVC.isSellerReport = true
+                reportPostVC.user_id = self.user_id
+                self.present(reportPostVC, animated: true, completion: nil)
+            }
+            else{
+                self.showLoginAlertPopUp()
+            }
         }
     }
     func showMembership(){

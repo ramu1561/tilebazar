@@ -54,15 +54,26 @@ class ProductsVC: ParentVC {
     }
     //MARK: Button Actions
     @IBAction func toggleReportPost(_ sender: UIButton) {
-        let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
-        reportPostVC.isSellerReport = false
-        reportPostVC.product_id = self.arrWatchlistProducts[sender.tag].id ?? ""
-        self.present(reportPostVC, animated: true, completion: nil)
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
+            reportPostVC.isSellerReport = false
+            reportPostVC.product_id = self.arrWatchlistProducts[sender.tag].id ?? ""
+            self.present(reportPostVC, animated: true, completion: nil)
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
+        
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
-        arrayWatchlistProductIDs.removeElement(element:self.arrWatchlistProducts[sender.tag].id ?? "")
-        wsCallRemoveProductFromWatchlist(product_id: self.arrWatchlistProducts[sender.tag].id ?? "")
-        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            arrayWatchlistProductIDs.removeElement(element:self.arrWatchlistProducts[sender.tag].id ?? "")
+            wsCallRemoveProductFromWatchlist(product_id: self.arrWatchlistProducts[sender.tag].id ?? "")
+            UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         if arrayCompareProductIDs.contains(self.arrWatchlistProducts[sender.tag].id ?? ""){

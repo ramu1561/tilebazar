@@ -8,6 +8,10 @@
 import UIKit
 import Toast_Swift
 
+protocol ShowLoginDelegate{
+    func showLogin()
+}
+
 class ParentVC: UIViewController {
     
     var contact_number = "+91 \(HomeVC.sharedInstance?.support_number ?? "")"
@@ -119,6 +123,15 @@ class ParentVC: UIViewController {
         let addProductVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: AddProductVC.self)) as! AddProductVC
         self.navigationController?.pushViewController(addProductVC, animated: true)
     }
+    func showLoginScreen(){
+        let loginVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: LoginVC.self)) as! LoginVC
+        self.navigationController?.pushViewController(loginVC, animated: true)
+    }
+    func showLoginAlertPopUp(){
+        let loginAlertVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: LoginAlertVC.self)) as! LoginAlertVC
+        loginAlertVC.showLoginDelegate = self
+        self.present(loginAlertVC, animated: true, completion: nil)
+    }
     @IBAction func toggleSideMenu(_ sender: UIButton) {
         guard let menuVC = self.storyboard!.instantiateViewController(withIdentifier: String(describing: MenuVC.self)) as? MenuVC else {
             return
@@ -146,5 +159,10 @@ extension UIViewController {
             statusBar.backgroundColor = style == .lightContent ? UIColor.black : .white
             statusBar.setValue(style == .lightContent ? UIColor.white : .black, forKey: "foregroundColor")
         }
+    }
+}
+extension ParentVC:ShowLoginDelegate{
+    func showLogin() {
+        self.showLoginScreen()
     }
 }

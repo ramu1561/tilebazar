@@ -448,68 +448,83 @@ class HomeVC: ParentVC {
         }
         else if sender.tag == 2{
             //sell
-            self.showAddProductScreen()
+            if let info = Helper.getDatafromUserDefault("UserInformation"){
+                self.showAddProductScreen()
+            }
+            else{
+                self.showLoginAlertPopUp()
+            }
         }
         else{
             //compare
         }
     }
     @IBAction func toggleReportPost(_ sender: UIButton) {
-        
-        let buttonPosition = sender.convert(CGPoint.zero, to: self.tblViewProducts)
-        let indexPath = self.tblViewProducts.indexPathForRow(at:buttonPosition)
-        print("section:\(indexPath?.section ?? 0) row:\(indexPath?.row ?? 0)")
-        
-        let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
-        reportPostVC.isSellerReport = false
-        if (indexPath?.section ?? 0) == 0{
-            reportPostVC.product_id = self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? ""
-        }
-        else if (indexPath?.section ?? 0) == 1{
-            reportPostVC.product_id = self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? ""
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            let buttonPosition = sender.convert(CGPoint.zero, to: self.tblViewProducts)
+            let indexPath = self.tblViewProducts.indexPathForRow(at:buttonPosition)
+            print("section:\(indexPath?.section ?? 0) row:\(indexPath?.row ?? 0)")
+            
+            let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
+            reportPostVC.isSellerReport = false
+            if (indexPath?.section ?? 0) == 0{
+                reportPostVC.product_id = self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? ""
+            }
+            else if (indexPath?.section ?? 0) == 1{
+                reportPostVC.product_id = self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? ""
+            }
+            else{
+                reportPostVC.product_id = self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? ""
+            }
+            self.present(reportPostVC, animated: true, completion: nil)
         }
         else{
-            reportPostVC.product_id = self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? ""
+            self.showLoginAlertPopUp()
         }
-        self.present(reportPostVC, animated: true, completion: nil)
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
-        let buttonPosition = sender.convert(CGPoint.zero, to: self.tblViewProducts)
-        let indexPath = self.tblViewProducts.indexPathForRow(at:buttonPosition)
-        print("section:\(indexPath?.section ?? 0) row:\(indexPath?.row ?? 0)")
-        
-        if (indexPath?.section ?? 0) == 0{
-            if (self.arrFeaturedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? ""){
-                arrayWatchlistProductIDs.removeElement(element:self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
-                wsCallRemoveProductFromWatchlist(product_id: self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            let buttonPosition = sender.convert(CGPoint.zero, to: self.tblViewProducts)
+            let indexPath = self.tblViewProducts.indexPathForRow(at:buttonPosition)
+            print("section:\(indexPath?.section ?? 0) row:\(indexPath?.row ?? 0)")
+            
+            if (indexPath?.section ?? 0) == 0{
+                if (self.arrFeaturedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? ""){
+                    arrayWatchlistProductIDs.removeElement(element:self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
+                    wsCallRemoveProductFromWatchlist(product_id: self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
+                }
+                else{
+                    arrayWatchlistProductIDs.append(self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
+                    self.wsCallAddProductToWatchlist(product_id: self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
+                }
+            }
+            else if (indexPath?.section ?? 0) == 1{
+                if (self.arrRecentlyAddedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? ""){
+                    arrayWatchlistProductIDs.removeElement(element:self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
+                    wsCallRemoveProductFromWatchlist(product_id: self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
+                }
+                else{
+                    arrayWatchlistProductIDs.append(self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
+                    self.wsCallAddProductToWatchlist(product_id: self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
+                }
             }
             else{
-                arrayWatchlistProductIDs.append(self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
-                self.wsCallAddProductToWatchlist(product_id: self.arrFeaturedProducts[indexPath?.row ?? 0].id ?? "")
+                if (self.arrFirstChoiceProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? ""){
+                    arrayWatchlistProductIDs.removeElement(element:self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
+                    wsCallRemoveProductFromWatchlist(product_id: self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
+                }
+                else{
+                    arrayWatchlistProductIDs.append(self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
+                    self.wsCallAddProductToWatchlist(product_id: self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
+                }
             }
-        }
-        else if (indexPath?.section ?? 0) == 1{
-            if (self.arrRecentlyAddedProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? ""){
-                arrayWatchlistProductIDs.removeElement(element:self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
-                wsCallRemoveProductFromWatchlist(product_id: self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
-            }
-            else{
-                arrayWatchlistProductIDs.append(self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
-                self.wsCallAddProductToWatchlist(product_id: self.arrRecentlyAddedProducts[indexPath?.row ?? 0].id ?? "")
-            }
+            UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
+            self.tblViewProducts.reloadData()
         }
         else{
-            if (self.arrFirstChoiceProducts[indexPath?.row ?? 0].is_favourite ?? "") == "1" || arrayWatchlistProductIDs.contains(self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? ""){
-                arrayWatchlistProductIDs.removeElement(element:self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
-                wsCallRemoveProductFromWatchlist(product_id: self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
-            }
-            else{
-                arrayWatchlistProductIDs.append(self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
-                self.wsCallAddProductToWatchlist(product_id: self.arrFirstChoiceProducts[indexPath?.row ?? 0].id ?? "")
-            }
+            self.showLoginAlertPopUp()
         }
-        UserDefaults.standard.set(self.arrayWatchlistProductIDs, forKey: "arrayWatchlistProductIDs")
-        self.tblViewProducts.reloadData()
+        
     }
     @IBAction func toggleCompare(_ sender: UIButton) {
         let buttonPosition = sender.convert(CGPoint.zero, to: self.tblViewProducts)

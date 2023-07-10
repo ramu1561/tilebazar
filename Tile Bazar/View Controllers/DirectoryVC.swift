@@ -189,22 +189,32 @@ class DirectoryVC: ParentVC {
         self.present(alert, animated: true, completion: nil)
     }
     @IBAction func toggleReportPost(_ sender: UIButton) {
-        let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
-        reportPostVC.isSellerReport = true
-        reportPostVC.user_id = self.arrDirectory[sender.tag].id ?? ""
-        self.present(reportPostVC, animated: true, completion: nil)
-    }
-    @IBAction func toggleWatchlist(_ sender: UIButton) {
-        if (self.arrDirectory[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistSellerIDs.contains(self.arrDirectory[sender.tag].id ?? ""){
-            arrayWatchlistSellerIDs.removeElement(element:self.arrDirectory[sender.tag].id ?? "")
-            wsCallRemoveDirectoryFromWatchlist(user_id: self.arrDirectory[sender.tag].id ?? "")
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
+            reportPostVC.isSellerReport = true
+            reportPostVC.user_id = self.arrDirectory[sender.tag].id ?? ""
+            self.present(reportPostVC, animated: true, completion: nil)
         }
         else{
-            arrayWatchlistSellerIDs.append(self.arrDirectory[sender.tag].id ?? "")
-            self.wsCallAddDirectoryToWatchlist(user_id: self.arrDirectory[sender.tag].id ?? "")
+            self.showLoginAlertPopUp()
         }
-        UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
-        self.tblView.reloadData()
+    }
+    @IBAction func toggleWatchlist(_ sender: UIButton) {
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            if (self.arrDirectory[sender.tag].is_favourite ?? "") == "1" || arrayWatchlistSellerIDs.contains(self.arrDirectory[sender.tag].id ?? ""){
+                arrayWatchlistSellerIDs.removeElement(element:self.arrDirectory[sender.tag].id ?? "")
+                wsCallRemoveDirectoryFromWatchlist(user_id: self.arrDirectory[sender.tag].id ?? "")
+            }
+            else{
+                arrayWatchlistSellerIDs.append(self.arrDirectory[sender.tag].id ?? "")
+                self.wsCallAddDirectoryToWatchlist(user_id: self.arrDirectory[sender.tag].id ?? "")
+            }
+            UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
+            self.tblView.reloadData()
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
     }
     @IBAction func toggleShare(_ sender: UIButton) {
         let seller_id = arrDirectory[sender.tag].id ?? ""

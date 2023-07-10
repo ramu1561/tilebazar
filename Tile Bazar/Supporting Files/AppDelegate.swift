@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         application.registerForRemoteNotifications()
-
         showDashboard()
         return true
     }

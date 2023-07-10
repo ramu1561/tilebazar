@@ -38,15 +38,25 @@ class SellersVC: ParentVC {
         wsCallGetDirectoryWatchlist(limit: "10")
     }
     @IBAction func toggleReportPost(_ sender: UIButton) {
-        let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
-        reportPostVC.isSellerReport = true
-        reportPostVC.user_id = self.arrDirectoryWatchlist[sender.tag].id ?? ""
-        self.present(reportPostVC, animated: true, completion: nil)
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            let reportPostVC = AppDelegate.mainStoryboard().instantiateViewController(withIdentifier: String(describing: ReportPostVC.self)) as! ReportPostVC
+            reportPostVC.isSellerReport = true
+            reportPostVC.user_id = self.arrDirectoryWatchlist[sender.tag].id ?? ""
+            self.present(reportPostVC, animated: true, completion: nil)
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
     }
     @IBAction func toggleWatchlist(_ sender: UIButton) {
-        arrayWatchlistSellerIDs.removeElement(element:self.arrDirectoryWatchlist[sender.tag].id ?? "")
-        wsCallRemoveDirectoryFromWatchlist(user_id: self.arrDirectoryWatchlist[sender.tag].id ?? "")
-        UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
+        if let info = Helper.getDatafromUserDefault("UserInformation"){
+            arrayWatchlistSellerIDs.removeElement(element:self.arrDirectoryWatchlist[sender.tag].id ?? "")
+            wsCallRemoveDirectoryFromWatchlist(user_id: self.arrDirectoryWatchlist[sender.tag].id ?? "")
+            UserDefaults.standard.set(self.arrayWatchlistSellerIDs, forKey: "arrayWatchlistSellerIDs")
+        }
+        else{
+            self.showLoginAlertPopUp()
+        }
     }
     @IBAction func toggleShare(_ sender: UIButton) {
         let seller_id = arrDirectoryWatchlist[sender.tag].id ?? ""
